@@ -42,3 +42,20 @@ h6 {
 .shaded{
    box-shadow: 2px 2px 3px 3px rgba(0, 0, 0, .5)
 }
+
+.highlight-pulse {
+  animation: pulse-highlight 2s ease-in-out;
+  border: 2px solid #57aee8 !important;
+  box-shadow: 0 0 20px rgba(87, 174, 232, 0.4);
+}
+
+@keyframes pulse-highlight {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(87, 174, 232, 0.7);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 0 10px rgba(87, 174, 232, 0);
+    transform: scale(1.02);
+  }
+}

@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
 import Button from "../components/Button";
+import { Link } from "react-router-dom";
 import net from "../assets/cardbg.png";
 import { ThemeContext } from "../pages/ParentPage";
+
 
 function Footer() {
   const { isDarkMode } = useContext(ThemeContext);
@@ -20,6 +22,36 @@ function Footer() {
       section.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  const handleServiceClick = (serviceName) => {
+    // First scroll to services section
+    scrollToSection("services");
+
+    // Then highlight the specific service after scroll completes
+    setTimeout(() => {
+      const serviceElements = document.querySelectorAll(".service-card");
+      serviceElements.forEach((element) => {
+        if (
+          element.textContent.toLowerCase().includes(serviceName.toLowerCase())
+        ) {
+          // Add highlight animation
+          element.classList.add("highlight-pulse");
+
+          // Remove highlight after animation completes
+          setTimeout(() => {
+            element.classList.remove("highlight-pulse");
+          }, 2000);
+        }
+      });
+    }, 800); // Wait for scroll to complete
+  };
+
+  const services = [
+    { name: "Web Development", id: "web-development" },
+    { name: "Backend Development", id: "backend-development" },
+    { name: "API Development", id: "api-development" },
+    { name: "Consulting", id: "consulting" },
+  ];
 
   return (
     <footer
@@ -48,7 +80,7 @@ function Footer() {
             onClick={handleHireClick}
             variant="secondary"
             size="medium"
-            className=" relative z-10"
+            className="relative z-10"
           >
             Get in Touch
           </Button>
@@ -164,19 +196,17 @@ function Footer() {
           {/* Services */}
           <div>
             <h5 className="font-semibold text-lg mb-4">Services</h5>
-            <ul className="space-y-3 text-gray-400">
-              <li className="hover:text-white transition-colors duration-200 cursor-pointer">
-                Web Development
-              </li>
-              <li className="hover:text-white transition-colors duration-200 cursor-pointer">
-                Backend Development
-              </li>
-              <li className="hover:text-white transition-colors duration-200 cursor-pointer">
-                API Development
-              </li>
-              <li className="hover:text-white transition-colors duration-200 cursor-pointer">
-                Consulting
-              </li>
+            <ul className="space-y-3">
+              {services.map((service) => (
+                <li key={service.id}>
+                  <button
+                    onClick={() => handleServiceClick(service.name)}
+                    className="text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer text-left w-full hover:translate-x-1 transform duration-200"
+                  >
+                    {service.name}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -211,21 +241,42 @@ function Footer() {
             © {currentYear} GreatRoyce. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <a
-              href="#"
+            <Link
+              to="/privacy-policy"
               className="text-gray-400 hover:text-white text-sm transition-colors duration-200"
             >
               Privacy Policy
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/terms-of-service"
               className="text-gray-400 hover:text-white text-sm transition-colors duration-200"
             >
               Terms of Service
-            </a>
+            </Link>
           </div>
         </div>
       </div>
+
+      {/* Add CSS for highlight animation */}
+      <style jsx>{`
+        .highlight-pulse {
+          animation: pulse-highlight 2s ease-in-out;
+          border: 2px solid #57aee8 !important;
+          box-shadow: 0 0 20px rgba(87, 174, 232, 0.4);
+        }
+
+        @keyframes pulse-highlight {
+          0%,
+          100% {
+            box-shadow: 0 0 0 0 rgba(87, 174, 232, 0.7);
+            transform: scale(1);
+          }
+          50% {
+            box-shadow: 0 0 0 10px rgba(87, 174, 232, 0);
+            transform: scale(1.02);
+          }
+        }
+      `}</style>
     </footer>
   );
 }

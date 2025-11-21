@@ -146,7 +146,7 @@ function Services() {
             Technologies I Work With
           </motion.h5>
           
-          <div className={`relative overflow-hidden rounded-2xl shadow-md py-8 transition-colors duration-300 ${
+          <div className={`relative w-2/3 mx-auto overflow-hidden rounded-2xl shadow-md py-8 transition-colors duration-300 ${
             isDarkMode ? 'bg-gray-800' : 'bg-white'
           }`}>
             {/* Gradient overlays for smooth edges */}

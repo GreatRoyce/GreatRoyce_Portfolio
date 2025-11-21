@@ -3,6 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeContext } from "../pages/ParentPage";
 import { MdDarkMode, MdLightbulbOutline } from "react-icons/md";
+import logo from "../assets/grlogo.png";
 
 function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,19 +51,18 @@ function Navigation() {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="flex items-center gap-3">
-          <div
-            className={`brandLogo rounded-full p-2 border ${
-              isDarkMode ? "border-white" : "border-black"
-            } bg-[#57aee8] text-white font-bold w-8 h-8 flex items-center justify-center text-sm`}
-          >
-            gR
-          </div>
-          <div
-            className={`brandName hidden sm:block text-base ${
+          {/* Logo Image */}
+          <img 
+            src={logo} 
+            alt="GreatRoyce Logo"
+            className="w-24 h-12 object-contain"
+          />
+          <div 
+            className={`brandName hidden sm:block text-base font-bold ${
               isDarkMode ? "text-white" : "text-gray-800"
             }`}
           >
-            greatRoyce
+          
           </div>
         </div>
 
@@ -176,19 +176,18 @@ function Navigation() {
             {/* Menu Header */}
             <div className="mt-16 mb-8">
               <div className="flex items-center gap-3">
-                <div
-                  className={`brandLogo rounded-full p-2 border ${
-                    isDarkMode ? "border-white" : "border-black"
-                  } bg-[#57aee8] text-white font-bold w-10 h-10 flex items-center justify-center`}
-                >
-                  gR
-                </div>
+                {/* Logo in mobile menu */}
+                <img 
+                  src={logo} 
+                  alt="GreatRoyce Logo"
+                  className="w-10 h-10 object-contain"
+                />
                 <div
                   className={`text-lg font-bold ${
                     isDarkMode ? "text-white" : "text-gray-800"
                   }`}
                 >
-                  greatRoyce
+                  GreatRoyce
                 </div>
               </div>
             </div>

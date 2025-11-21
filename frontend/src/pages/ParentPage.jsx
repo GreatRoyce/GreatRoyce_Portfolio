@@ -4,6 +4,8 @@ import HeroSection from "./HeroSection";
 import About from "./About";
 import Services from "./Services";
 import Projects from "./Projects";
+import PrivacyPolicy from "../components/PrivacyPolicy";
+import TermsOfService from "../components/TermsOfService";
 import Contact from "./Contact";
 import { motion } from "framer-motion";
 import Footer from "./Footer";
@@ -12,28 +14,28 @@ import Footer from "./Footer";
 const pageVariants = {
   initial: {
     opacity: 0,
-    y: 100
+    y: 100,
   },
   in: {
     opacity: 1,
-    y: 0
+    y: 0,
   },
   out: {
     opacity: 0,
-    y: -100
-  }
+    y: -100,
+  },
 };
 
 const pageTransition = {
   type: "tween",
   ease: "anticipate",
-  duration: 0.8
+  duration: 0.8,
 };
 
 const sectionVariants = {
   offscreen: {
     y: 100,
-    opacity: 0
+    opacity: 0,
   },
   onscreen: {
     y: 0,
@@ -41,9 +43,9 @@ const sectionVariants = {
     transition: {
       type: "spring",
       bounce: 0.4,
-      duration: 0.8
-    }
-  }
+      duration: 0.8,
+    },
+  },
 };
 
 const staggerContainer = {
@@ -51,9 +53,9 @@ const staggerContainer = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2
-    }
-  }
+      staggerChildren: 0.2,
+    },
+  },
 };
 
 // Create a context for theme
@@ -64,11 +66,13 @@ function ParentPage() {
 
   // Initialize theme from localStorage or system preference
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+    const savedTheme = localStorage.getItem("theme");
+    const systemPrefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
     if (savedTheme) {
-      setIsDarkMode(savedTheme === 'dark');
+      setIsDarkMode(savedTheme === "dark");
     } else if (systemPrefersDark) {
       setIsDarkMode(true);
     }
@@ -76,12 +80,12 @@ function ParentPage() {
 
   // Update localStorage and document class when theme changes
   useEffect(() => {
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-    
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+
     if (isDarkMode) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
   }, [isDarkMode]);
 
@@ -91,14 +95,14 @@ function ParentPage() {
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
-      <div className={`border-5 border-[#57aee8]
+      <div
+        className={`border-5 border-[#57aee8]
        parent min-h-screen transition-colors duration-300 ${
-        isDarkMode 
-          ? 'dark bg-gray-900 text-white' 
-          : 'bg-white text-gray-900'
-      }`}>
+         isDarkMode ? "dark bg-gray-900 text-white" : "bg-white text-gray-900"
+       }`}
+      >
         <Navigation />
-        
+
         <motion.div
           initial="initial"
           animate="in"

@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import Buttons from "../components/Button";
 import { motion } from "framer-motion";
 import { ThemeContext } from "../pages/ParentPage";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaTwitter, FaPhone } from "react-icons/fa";
 
 function Contact() {
   const { isDarkMode } = useContext(ThemeContext);
@@ -25,6 +25,11 @@ function Contact() {
     // Handle form submission here
     console.log("Form submitted:", formData);
     // You can add your form submission logic (email service, API call, etc.)
+  };
+
+  const handlePhoneClick = () => {
+    // This will trigger the native phone dialer on mobile devices
+    window.location.href = "tel:+2347066070465";
   };
 
   const socialLinks = [
@@ -55,7 +60,7 @@ function Contact() {
         isDarkMode ? "bg-gray-900" : "bg-gray-50"
       }`}
     >
-      <div className=" px-2 sm:px-12">
+      <div className="pt-8 px-2 sm:px-12">
         <motion.h5
           className={` mx-auto text-center text-3xl font-bold transition-colors duration-300 ${
             isDarkMode ? "text-white" : "text-gray-800"
@@ -277,43 +282,39 @@ function Contact() {
                 </div>
               </motion.div>
 
-              {/* Phone */}
-              <motion.div
-                className="flex items-start space-x-4"
+              {/* Phone - Now Clickable */}
+              <motion.a
+                href="tel:+2347066070465"
+                onClick={handlePhoneClick}
+                className="flex items-start space-x-4 cursor-pointer no-underline group"
                 whileHover={{ x: 5 }}
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className={`flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center transition-colors duration-300 ${
-                    isDarkMode ? "bg-green-900/30" : "bg-green-100"
+                  className={`flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+                    isDarkMode 
+                      ? "bg-green-900/30 group-hover:bg-green-800" 
+                      : "bg-green-100 group-hover:bg-green-200"
                   }`}
                 >
-                  <svg
-                    className={`w-6 h-6 transition-colors duration-300 ${
-                      isDarkMode ? "text-green-400" : "text-green-600"
+                  <FaPhone
+                    className={`w-5 h-5 transition-colors duration-300 ${
+                      isDarkMode 
+                        ? "text-green-400 group-hover:text-green-300" 
+                        : "text-green-600 group-hover:text-green-700"
                     }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                    />
-                  </svg>
+                  />
                 </div>
                 <div>
                   <h6
-                    className={`font-semibold mb-1 transition-colors duration-300 ${
+                    className={`font-semibold mb-1 transition-colors duration-300 group-hover:text-[#57aee8] ${
                       isDarkMode ? "text-white" : "text-gray-800"
                     }`}
                   >
                     Phone
                   </h6>
                   <p
-                    className={`transition-colors duration-300 ${
+                    className={`transition-colors duration-300 group-hover:text-[#57aee8] font-medium ${
                       isDarkMode ? "text-gray-300" : "text-gray-600"
                     }`}
                   >
@@ -324,10 +325,12 @@ function Contact() {
                       isDarkMode ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
-                    Mon - Fri, 9:00 AM - 6:00 PM
+                    <span className="group-hover:text-[#57aee8] transition-colors duration-300">
+                      Click to call • Mon - Fri, 9:00 AM - 6:00 PM
+                    </span>
                   </p>
                 </div>
-              </motion.div>
+              </motion.a>
 
               {/* Email */}
               <motion.div
@@ -381,6 +384,42 @@ function Contact() {
                   </p>
                 </div>
               </motion.div>
+            </div>
+
+            {/* Quick Action Buttons */}
+            <div className="mt-8 p-4 rounded-lg bg-gray-100 dark:bg-gray-700">
+              <p className={`text-sm mb-3 text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Quick actions:
+              </p>
+              <div className="flex gap-3">
+                <motion.a
+                  href="tel:+2347066070465"
+                  onClick={handlePhoneClick}
+                  className={`flex-1 py-2 px-3 text-center rounded-lg font-medium transition-all duration-200 hover:scale-105 ${
+                    isDarkMode
+                      ? "bg-green-600 hover:bg-green-500 text-white"
+                      : "bg-green-500 hover:bg-green-600 text-white"
+                  }`}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Call Now
+                </motion.a>
+                <motion.a
+                  href="https://wa.me/2347066070465"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex-1 py-2 px-3 text-center rounded-lg font-medium transition-all duration-200 hover:scale-105 ${
+                    isDarkMode
+                      ? "bg-green-600 hover:bg-green-500 text-white"
+                      : "bg-green-500 hover:bg-green-600 text-white"
+                  }`}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  WhatsApp
+                </motion.a>
+              </div>
             </div>
 
             {/* Social Links with Icons */}
