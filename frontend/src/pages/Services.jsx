@@ -39,12 +39,12 @@ function Services() {
   ];
 
   return (
-    <section id="services" className={`shade shadow-2xl my-16 py-16 transition-colors duration-300 ${
+    <section id="services" className={` shade shadow-2xl my-16 py-16 transition-colors duration-300 ${
       isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
     }`}>
       <div className="container mx-auto px-4 text-center">
         <motion.h4 
-          className={`mb-8 text-3xl font-bold transition-colors duration-300 ${
+          className={`mb-8 text-3xl pt-8 font-bold transition-colors duration-300 ${
             isDarkMode ? 'text-white' : 'text-gray-800'
           }`}
           initial={{ opacity: 0, y: 30 }}

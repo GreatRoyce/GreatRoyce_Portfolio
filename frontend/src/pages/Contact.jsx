@@ -52,7 +52,7 @@ function Contact() {
     <section id='contact' className={`shade shadow-2xl my-16 pt-16 pb-8 transition-colors duration-300 ${
       isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
     }`}>
-      <div className=' px-4 py-8 sm:px-12'>
+      <div className=' px-2 sm:px-12'>
         <motion.h5 
           className={` mx-auto text-center text-3xl font-bold transition-colors duration-300 ${
             isDarkMode ? 'text-white' : 'text-gray-800'
@@ -62,7 +62,7 @@ function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          Get In Touch
+         Contact
         </motion.h5>
         
         <div className='max-w-6xl py-8 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12'>

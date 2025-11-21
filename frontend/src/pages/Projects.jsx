@@ -106,11 +106,11 @@ function Projects() {
   return (
     <section 
       id="projects"
-      className={`shade my-16 py-8 shadow-2xl transition-colors duration-300 ${
+      className={` shade my-16 py-8 shadow-2xl transition-colors duration-300 ${
         isDarkMode ? "bg-gray-900" : "bg-gray-50"
       }`}
     >
-      <div className="py-16 px-4">
+      <div className="py-16 sm:py-16 sm:px-4">
         <h4
           className={`text-center mx-auto mb-12 text-3xl font-bold transition-colors duration-300 ${
             isDarkMode ? "text-white" : "text-gray-800"

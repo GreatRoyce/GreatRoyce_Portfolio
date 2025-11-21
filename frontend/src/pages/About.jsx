@@ -12,13 +12,13 @@ function About() {
   return (
     <section 
       id="about"
-      className={`shade shadow-2xl pt-8 mb-16 pb-16 bg-cover bg-center bg-no-repeat transition-colors duration-300 ${
+      className={` shade shadow-2xl pt-16 mb-8 pb-8 bg-cover bg-center bg-no-repeat transition-colors duration-300 ${
         isDarkMode ? "bg-gray-900" : "bg-white"
       }`}
     >
       <div className="w-full min-h-[60vh]">
         <motion.h4
-          className={`pt-16 text-center text-3xl font-bold transition-colors duration-300 ${
+          className={`pt-8 text-center text-3xl font-bold transition-colors duration-300 ${
             isDarkMode ? "text-white" : "text-gray-800"
           }`}
           initial={{ opacity: 0, y: 30 }}
@@ -103,7 +103,7 @@ function About() {
                 </h5>
                 <ul 
                   className={` space-y-3 text-sm transition-colors duration-300 ${
-                    isDarkMode ? "text-gray-300" : "text-gray-600"
+                    isDarkMode ? "text-red-300" : "text-gray-600 font-medium"
                   }`}
                 >
                   <li className="flex items-center">

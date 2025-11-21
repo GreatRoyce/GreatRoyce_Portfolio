@@ -42,7 +42,7 @@ function HeroSection() {
   return (
     <>
       <section id="home" 
-      className="shade mb-16 pt-20 relative overflow-hidden">
+      className="shade sm:mb-16 sm:pt-20 relative overflow-hidden">
         {/* Animated Background Images */}
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
