@@ -67,7 +67,7 @@ function Footer() {
             </p>
             <div className="flex flex-col space-y-3 items-start">
               <a
-                href="https://github.com"
+                href="https://github.com/GreatRoyce"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors duration-200 flex items-center"
@@ -83,7 +83,7 @@ function Footer() {
               </a>
 
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/chukwudi-okoh/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors duration-200 flex items-center"
@@ -99,7 +99,7 @@ function Footer() {
               </a>
 
               <a
-                href="https://twitter.com"
+                href="https://x.com/iAmGreatRoyce"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors duration-200 flex items-center"
