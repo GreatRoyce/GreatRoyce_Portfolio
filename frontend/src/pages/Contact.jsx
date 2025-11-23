@@ -56,12 +56,12 @@ function Contact() {
   return (
     <section
       id="contact"
-      className={`shade shadow-2xl my-16 pt-16 pb-8 transition-colors duration-300 ${
+      className={`shade shadow-2xl px-4 transition-colors duration-300 ${
         isDarkMode ? "bg-gray-900" : "bg-gray-50"
       }`}
     >
-      <div className="pt-8 px-2 sm:px-12">
-        <motion.h5
+      <div className="pt-16 px-2 sm:px-12">
+        <motion.h4
           className={` mx-auto text-center text-3xl font-bold transition-colors duration-300 ${
             isDarkMode ? "text-white" : "text-gray-800"
           }`}
@@ -71,7 +71,7 @@ function Contact() {
           transition={{ duration: 0.6 }}
         >
           Contact
-        </motion.h5>
+        </motion.h4>
 
         <div className="max-w-6xl py-8 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
@@ -100,7 +100,7 @@ function Contact() {
                       isDarkMode ? "text-gray-300" : "text-gray-700"
                     }`}
                   >
-                    Name *
+                    Name <span className="text-[#cc4e00]">*</span>
                   </label>
                   <input
                     type="text"
@@ -125,7 +125,7 @@ function Contact() {
                       isDarkMode ? "text-gray-300" : "text-gray-700"
                     }`}
                   >
-                    Email Address *
+                    Email Address <span className="text-[#cc4e00]">*</span>
                   </label>
                   <input
                     type="email"
@@ -151,7 +151,7 @@ function Contact() {
                     isDarkMode ? "text-gray-300" : "text-gray-700"
                   }`}
                 >
-                  Subject *
+                  Subject <span className="text-[#cc4e00]">*</span>
                 </label>
                 <input
                   type="text"
@@ -176,7 +176,7 @@ function Contact() {
                     isDarkMode ? "text-gray-300" : "text-gray-700"
                   }`}
                 >
-                  Message *
+                  Message <span className="text-[#cc4e00]">*</span>
                 </label>
                 <textarea
                   id="message"
@@ -207,7 +207,7 @@ function Contact() {
 
           {/* Contact Information */}
           <motion.div
-            className={`rounded-2xl shadow-lg p-8 transition-colors duration-300 ${
+            className={`p-2 rounded-2xl shadow-lg sm:p-6 transition-colors duration-300 ${
               isDarkMode ? "bg-gray-800" : "bg-white"
             }`}
             initial={{ opacity: 0, x: 50 }}
@@ -223,7 +223,7 @@ function Contact() {
               Contact Information
             </h6>
 
-            <div className="space-y-8">
+            <div className="space-y-2">
               {/* Address */}
               <motion.div
                 className="flex items-start space-x-4"
@@ -231,12 +231,12 @@ function Contact() {
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className={`flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center transition-colors duration-300 ${
+                  className={`flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center transition-colors duration-300 ${
                     isDarkMode ? "bg-blue-900/30" : "bg-blue-100"
                   }`}
                 >
                   <svg
-                    className={`w-6 h-6 transition-colors duration-300 ${
+                    className={`w-3 h-3 transition-colors duration-300 ${
                       isDarkMode ? "text-blue-400" : "text-blue-600"
                     }`}
                     fill="none"
@@ -291,16 +291,16 @@ function Contact() {
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className={`flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
-                    isDarkMode 
-                      ? "bg-green-900/30 group-hover:bg-green-800" 
+                  className={`flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+                    isDarkMode
+                      ? "bg-green-900/30 group-hover:bg-green-800"
                       : "bg-green-100 group-hover:bg-green-200"
                   }`}
                 >
                   <FaPhone
-                    className={`w-5 h-5 transition-colors duration-300 ${
-                      isDarkMode 
-                        ? "text-green-400 group-hover:text-green-300" 
+                    className={`w-3 h-3 transition-colors duration-300 ${
+                      isDarkMode
+                        ? "text-green-400 group-hover:text-green-300"
                         : "text-green-600 group-hover:text-green-700"
                     }`}
                   />
@@ -326,7 +326,7 @@ function Contact() {
                     }`}
                   >
                     <span className="group-hover:text-[#57aee8] transition-colors duration-300">
-                      Click to call • Mon - Fri, 9:00 AM - 6:00 PM
+                      Click to call 
                     </span>
                   </p>
                 </div>
@@ -339,12 +339,12 @@ function Contact() {
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className={`flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center transition-colors duration-300 ${
+                  className={`flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center transition-colors duration-300 ${
                     isDarkMode ? "bg-purple-900/30" : "bg-purple-100"
                   }`}
                 >
                   <svg
-                    className={`w-6 h-6 transition-colors duration-300 ${
+                    className={`w-3 h-3 transition-colors duration-300 ${
                       isDarkMode ? "text-purple-400" : "text-purple-600"
                     }`}
                     fill="none"
@@ -369,7 +369,7 @@ function Contact() {
                   </h6>
                   <a
                     href="mailto:iamgreatroyce@gmail.com"
-                    className={`transition-colors duration-200 font-medium block hover:text-[#57aee8] ${
+                    className={`transition-colors duration-200 block hover:text-[#57aee8] ${
                       isDarkMode ? "text-gray-300" : "text-gray-600"
                     }`}
                   >
@@ -387,8 +387,12 @@ function Contact() {
             </div>
 
             {/* Quick Action Buttons */}
-            <div className="mt-8 p-4 rounded-lg bg-gray-100 dark:bg-gray-700">
-              <p className={`text-sm mb-3 text-center ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <div className="hidden mt-8 rounded-lg bg-gray-100 dark:bg-gray-700">
+              <p
+                className={`text-sm mb-3 text-center ${
+                  isDarkMode ? "text-gray-300" : "text-gray-600"
+                }`}
+              >
                 Quick actions:
               </p>
               <div className="flex gap-3">

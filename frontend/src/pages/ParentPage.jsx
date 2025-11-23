@@ -1,29 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Navigation from "../components/Navigation";
 import HeroSection from "./HeroSection";
 import About from "./About";
 import Services from "./Services";
 import Projects from "./Projects";
-import PrivacyPolicy from "../components/PrivacyPolicy";
-import TermsOfService from "../components/TermsOfService";
 import Contact from "./Contact";
-import { motion } from "framer-motion";
 import Footer from "./Footer";
 
-// More sophisticated animation variants
+// Animation variants
 const pageVariants = {
-  initial: {
-    opacity: 0,
-    y: 100,
-  },
-  in: {
-    opacity: 1,
-    y: 0,
-  },
-  out: {
-    opacity: 0,
-    y: -100,
-  },
+  initial: { opacity: 0, y: 100 },
+  in: { opacity: 1, y: 0 },
+  out: { opacity: 0, y: -100 },
 };
 
 const pageTransition = {
@@ -33,73 +22,47 @@ const pageTransition = {
 };
 
 const sectionVariants = {
-  offscreen: {
-    y: 100,
-    opacity: 0,
-  },
+  offscreen: { y: 100, opacity: 0 },
   onscreen: {
     y: 0,
     opacity: 1,
-    transition: {
-      type: "spring",
-      bounce: 0.4,
-      duration: 0.8,
-    },
+    transition: { type: "spring", bounce: 0.4, duration: 0.8 },
   },
 };
 
 const staggerContainer = {
   hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
+  show: { opacity: 1, transition: { staggerChildren: 0.2 } },
 };
 
-// Create a context for theme
 export const ThemeContext = React.createContext();
 
 function ParentPage() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Initialize theme from localStorage or system preference
+  // Load saved or system theme
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    const systemPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
+    const saved = localStorage.getItem("theme");
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-    if (savedTheme) {
-      setIsDarkMode(savedTheme === "dark");
-    } else if (systemPrefersDark) {
-      setIsDarkMode(true);
-    }
+    if (saved) setIsDarkMode(saved === "dark");
+    else if (systemDark) setIsDarkMode(true);
   }, []);
 
-  // Update localStorage and document class when theme changes
+  // Update theme globally
   useEffect(() => {
     localStorage.setItem("theme", isDarkMode ? "dark" : "light");
-
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", isDarkMode);
   }, [isDarkMode]);
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
       <div
-        className={`border-5 border-[#57aee8]
-       parent min-h-screen transition-colors duration-300 ${
-         isDarkMode ? "dark bg-gray-900 text-white" : "bg-white text-gray-900"
-       }`}
+        className={`min-h-screen transition-colors duration-300 ${
+          isDarkMode ? "dark bg-gray-900 text-gray-200" : "bg-white text-gray-900"
+        }`}
       >
         <Navigation />
 
@@ -110,8 +73,9 @@ function ParentPage() {
           variants={pageVariants}
           transition={pageTransition}
         >
-          {/* Hero Section - Immediate entrance */}
+          {/* HERO SECTION */}
           <motion.div
+            className="w-full px-4 sm:px-6 lg:px-12"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
@@ -119,48 +83,64 @@ function ParentPage() {
             <HeroSection />
           </motion.div>
 
-          {/* About Section - Spring effect */}
-          <motion.section
-            variants={sectionVariants}
-            initial="offscreen"
-            whileInView="onscreen"
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <About />
-          </motion.section>
+          <div className="sticky-container mt-10 sm:mt-16">
 
-          {/* Services Section - Staggered reveal */}
-          <motion.section
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            <Services />
-          </motion.section>
+            {/* ABOUT */}
+            <div className="section-spacer">
+              <motion.section
+                className="card z-20 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-12"
+                variants={sectionVariants}
+                initial="offscreen"
+                whileInView="onscreen"
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <About />
+              </motion.section>
+            </div>
 
-          {/* Projects Section - Slide up with bounce */}
-          <motion.section
-            variants={sectionVariants}
-            initial="offscreen"
-            whileInView="onscreen"
-            viewport={{ once: true, amount: 0 }}
-          >
-            <Projects />
-          </motion.section>
+            {/* SERVICES */}
+            <div className="section-spacer">
+              <motion.section
+                className="card z-30 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-12"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.2 }}
+              >
+                <Services />
+              </motion.section>
+            </div>
 
-          {/* Contact Section - Fade in with slight delay */}
-          <motion.section
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <Contact />
-          </motion.section>
+            {/* PROJECTS */}
+            <div className="section-spacer">
+              <motion.section
+                className="cardtwo z-40 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-12"
+                variants={sectionVariants}
+                initial="offscreen"
+                whileInView="onscreen"
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <Projects />
+              </motion.section>
+            </div>
 
-          {/* Footer - Simple fade in */}
+            {/* CONTACT */}
+            <div className="section-spacer">
+              <motion.section
+                className="cardtwo z-50 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-12"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <Contact />
+              </motion.section>
+            </div>
+          </div>
+
+          {/* FOOTER */}
           <motion.section
+            className="footer mt-10 px-4 sm:px-6 lg:px-12"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.1 }}

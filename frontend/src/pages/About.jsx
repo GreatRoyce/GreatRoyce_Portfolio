@@ -15,9 +15,9 @@ function About() {
       opacity: 1,
       transition: {
         staggerChildren: 0.3,
-        duration: 0.8
-      }
-    }
+        duration: 0.8,
+      },
+    },
   };
 
   const itemVariants = {
@@ -27,9 +27,9 @@ function About() {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   };
 
   const imageVariants = {
@@ -40,17 +40,17 @@ function About() {
       rotate: 0,
       transition: {
         duration: 0.8,
-        ease: "easeOut"
-      }
+        ease: "easeOut",
+      },
     },
     hover: {
       scale: 1.05,
       rotate: 2,
       transition: {
         duration: 0.3,
-        ease: "easeInOut"
-      }
-    }
+        ease: "easeInOut",
+      },
+    },
   };
 
   const cardVariants = {
@@ -61,16 +61,16 @@ function About() {
       transition: {
         duration: 0.7,
         ease: "easeOut",
-        delay: 0.6
-      }
+        delay: 0.6,
+      },
     },
     hover: {
       y: -5,
       transition: {
         duration: 0.3,
-        ease: "easeInOut"
-      }
-    }
+        ease: "easeInOut",
+      },
+    },
   };
 
   const listItemVariants = {
@@ -81,21 +81,21 @@ function About() {
       transition: {
         delay: i * 0.1,
         duration: 0.5,
-        ease: "easeOut"
-      }
-    })
+        ease: "easeOut",
+      },
+    }),
   };
 
   return (
-    <section 
+    <section
       id="about"
-      className={`shade shadow-2xl pt-16 mb-8 pb-8 bg-cover bg-center bg-no-repeat transition-colors duration-300 ${
+      className={`shadow-2xl bg-cover bg-center bg-no-repeat py-16 transition-colors duration-300 ${
         isDarkMode ? "bg-gray-900" : "bg-white"
       }`}
     >
       <div className="w-full min-h-[60vh]">
         <motion.h4
-          className={`pt-8 text-center text-3xl font-bold transition-colors duration-300 ${
+          className={`pt-16 text-center text-3xl font-bold transition-colors duration-300 ${
             isDarkMode ? "text-white" : "text-gray-800"
           }`}
           initial={{ opacity: 0, y: 30 }}
@@ -114,10 +114,7 @@ function About() {
           viewport={{ once: true, margin: "-50px" }}
         >
           {/* Profile Image */}
-          <motion.div
-            variants={itemVariants}
-            className="flex-shrink-0"
-          >
+          <motion.div variants={itemVariants} className="flex-shrink-0">
             <motion.div
               variants={imageVariants}
               whileHover="hover"
@@ -147,7 +144,7 @@ function About() {
                 isDarkMode ? "text-gray-300" : "text-gray-700"
               }`}
             >
-              <motion.p 
+              <motion.p
                 className="mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -165,7 +162,7 @@ function About() {
                 emotionally compelling.
               </motion.p>
 
-              <motion.p 
+              <motion.p
                 className="mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -173,16 +170,12 @@ function About() {
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
                 I write clean, intentional code, but I also write stories,
-                music, and ideas that resonate. With a background in{" "}
-                <span className="font-medium">mechanical engineering</span> and{" "}
-                <span className="font-medium">audio engineering</span>, I
-                approach problems with structure, depth, and bold creativity.
-                I bring narrative strength, versatility, and expressive detail into
-                everything I create.
+                music, and ideas that resonate. And so, I bring narrative strength,
+                versatility, and expressive detail into everything I create.
               </motion.p>
 
-              <motion.div 
-                style={{backgroundImage: `url(${card})`}}
+              <motion.div
+                style={{ backgroundImage: `url(${card})` }}
                 className={`shaped bg-cover bg-center bg-no-repeat mt-8 p-6 rounded-2xl transition-colors duration-300 ${
                   isDarkMode ? "bg-gray-800" : "bg-blue-50"
                 }`}
@@ -191,7 +184,7 @@ function About() {
               >
                 <motion.h5
                   className={`font-bold text-lg mb-4 transition-colors duration-300 ${
-                    isDarkMode ? "text-white" : "text-gray-800"
+                    isDarkMode ? "text-white" : "text-[#cc4e00]"
                   }`}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -207,12 +200,14 @@ function About() {
                     "Driven by Clean UI, Smooth UX & Thoughtful Development",
                     "Mechanical & Audio Engineering Background",
                     "Multidisciplinary Creator: Writing, Music & Visual Art",
-                    "Available for Remote Opportunities"
+                    "Available for Remote Opportunities",
                   ].map((fact, index) => (
-                    <motion.li 
+                    <motion.li
                       key={index}
                       className={`flex items-center transition-colors duration-300 ${
-                        isDarkMode ? "text-red-300" : "text-gray-600 font-medium"
+                        isDarkMode
+                          ? "text-[#cc4e00]"
+                          : "text-gray-300 font-medium"
                       }`}
                       custom={index}
                       variants={listItemVariants}
@@ -220,7 +215,7 @@ function About() {
                       whileInView="visible"
                       viewport={{ once: true }}
                     >
-                      <motion.span 
+                      <motion.span
                         className="w-2 h-2 bg-[#57aee8] rounded-full mr-3 flex-shrink-0"
                         whileHover={{ scale: 1.5 }}
                         transition={{ duration: 0.2 }}

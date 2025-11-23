@@ -17,11 +17,11 @@ function Button({
 
   const variantClasses = {
     primary:
-      "bg-[#57aee8] text-[#57aee8] border border-[#57aee8] hover:bg-[#4a9cd6] hover:border-[#4a9cd6]",
+      "bg-transparent text-[#57aee8] border border-[#57aee8] hover:border-[#4a9cd6]",
     outline:
-      "bg-transparent font-semibold rounded-lg text-[#57aee8] border border-[#57aee8] hover:bg-[#57aee8] hover:text-[#57aee8]",
+      "bg-transparent font-semibold rounded-lg text-red-400 border border-[#57aee8] hover:bg-[#57aee8] hover:text-[#57aee8]",
     secondary:
-      "bg-gray-600 text-white border border-gray-600   font-semibold rounded-xl hover:bg-gray-700 hover:border-gray-700",
+      "bg-gray-600 text-white border border-gray-600 font-semibold rounded-xl hover:bg-gray-700 hover:border-gray-700",
   };
 
   const baseClasses = `
@@ -34,30 +34,31 @@ function Button({
   `;
 
   return (
-    <motion.button
-      whileHover={{
-        scale: disabled ? 0.95 : 0.90,
-        y: disabled ? 0 : -2,
-        transition: { duration: 0.1 },
-      }}
-      whileTap={{
-        scale: disabled ? 0.95 : 1,
-        transition: { duration: 0.1 },
-      }}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 1.8,
-        ease: "easeOut",
-        delay: 0.2, 
-        
-      }}
-      className={baseClasses}
-      onClick={disabled ? undefined : onClick}
-      disabled={disabled}
-    >
-      {children}
-    </motion.button>
+   <motion.button
+  whileHover={{
+    scale: disabled ? 0.95 : 0.90,
+    y: disabled ? 0 : -2,
+    transition: { duration: 0.1 },
+  }}
+  whileTap={{
+    scale: disabled ? 0.95 : 1,
+    transition: { duration: 0.3 },
+  }}
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: [0, -15, 0, -7, 0] }}   // bounce twice
+  transition={{
+    duration: 1.5,
+    ease: "easeOut",
+    delay: 0.1,
+    times: [0, 0.6, 0.9, 1.5, 1],   // controls timing of each bounce
+  }}
+  className={baseClasses}
+  onClick={disabled ? undefined : onClick}
+  disabled={disabled}
+>
+  {children}
+</motion.button>
+
   );
 }
 
