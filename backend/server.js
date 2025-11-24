@@ -15,29 +15,40 @@ const adminRoutes = require("./src/routes/admin.routes"); // login only
 const adminDataRoutes = require("./src/routes/adminData.routes"); // protected admin routes (uploads, projects)
 // const sendMail = require("./src/utils/mailer");
 
+// =======================
 // Env Variables
 // =======================
 dotenv.config();
 
+// =======================
 // Initialize Express
 // =======================
 const app = express();
 
+// =======================
 // Middlewares
 // =======================
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // ✅ your React frontend
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true, // allow sending cookies/auth headers
+  })
+);
 app.use(morgan("dev"));
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // serve uploaded files
 
-// Db Connection
+// =======================
+// Database Connection
 // =======================
 connectDB();
 
-// 📨 Test Mail Route
+// =======================
+// Test Mail Route (Optional)
 // =======================
 // app.get("/test-mail", async (req, res) => {
 //   try {
@@ -55,8 +66,10 @@ connectDB();
 // });
 
 // =======================
-// 🚏 Routes
+// Routes
 // =======================
+
+// Health check
 app.get("/api/v1", (req, res) => {
   res.send("✅ API is live and ready!");
 });
@@ -68,9 +81,10 @@ app.use("/api/v1/contacts", contactRoutes); // POST /api/v1/contacts is public
 // Admin login
 app.use("/api/v1/admin", adminRoutes);
 
-// Protected admin routes (projects, uploads, etc.)
+// Protected admin routes (projects, uploads, contacts)
 app.use("/api/v1/admin/data", adminDataRoutes);
 
+// =======================
 // Error Handling Middleware
 // =======================
 app.use((err, req, res, next) => {
@@ -78,7 +92,8 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: err.message });
 });
 
-// 🚀 Start Server
+// =======================
+// Start Server
 // =======================
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

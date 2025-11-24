@@ -1,3 +1,4 @@
+// src/routes/adminData.routes.js
 const express = require("express");
 const router = express.Router();
 const upload = require("../multer/multer");
@@ -9,28 +10,26 @@ const {
   deleteProject,
 } = require("../controllers/project.controller");
 
-// All routes in this file are protected and prefixed with /api/v1/admin/data
+const { getContacts } = require("../controllers/contact.controller");
 
-// Project management routes
-router.post(
-  "/projects",
-  protect,
-  upload.fields([
-    { name: "image", maxCount: 1 },
-    { name: "video", maxCount: 1 },
-  ]),
-  createProject
-);
+// -------------------
+// Upload fields for projects
+// -------------------
+const projectUploadFields = upload.fields([
+  { name: "image", maxCount: 1 },
+  { name: "video", maxCount: 1 },
+]);
 
-router.put(
-  "/projects/:id",
-  protect,
-  upload.fields([
-    { name: "image", maxCount: 1 },
-    { name: "video", maxCount: 1 },
-  ]),
-  updateProject
-);
+// -------------------
+// Project Routes (Protected)
+// -------------------
+router.post("/projects", protect, projectUploadFields, createProject);
+router.put("/projects/:id", protect, projectUploadFields, updateProject);
 router.delete("/projects/:id", protect, deleteProject);
+
+// -------------------
+// Contact Routes (Protected)
+// -------------------
+router.get("/contacts", protect, getContacts);
 
 module.exports = router;

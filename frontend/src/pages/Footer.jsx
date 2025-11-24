@@ -15,7 +15,7 @@ function Footer() {
       const offsetTop = section.offsetTop - 80; // Account for fixed header
       window.scrollTo({
         top: offsetTop,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   }, []);
@@ -24,27 +24,29 @@ function Footer() {
     scrollToSection("contact");
   }, [scrollToSection]);
 
-  const handleServiceClick = useCallback((serviceName) => {
-    
-    scrollToSection("services");
+  const handleServiceClick = useCallback(
+    (serviceName) => {
+      scrollToSection("services");
 
-    setTimeout(() => {
-      const serviceElements = document.querySelectorAll(".service-card");
-      serviceElements.forEach((element) => {
-        if (
-          element.textContent.toLowerCase().includes(serviceName.toLowerCase())
-        ) {
-  
-          element.classList.add("highlight-pulse");
+      setTimeout(() => {
+        const serviceElements = document.querySelectorAll(".service-card");
+        serviceElements.forEach((element) => {
+          if (
+            element.textContent
+              .toLowerCase()
+              .includes(serviceName.toLowerCase())
+          ) {
+            element.classList.add("highlight-pulse");
 
-      
-          setTimeout(() => {
-            element.classList.remove("highlight-pulse");
-          }, 2000);
-        }
-      });
-    }, 800); // Wait for scroll to complete
-  }, [scrollToSection]);
+            setTimeout(() => {
+              element.classList.remove("highlight-pulse");
+            }, 2000);
+          }
+        });
+      }, 800); // Wait for scroll to complete
+    },
+    [scrollToSection]
+  );
 
   const services = [
     { name: "Web Development", id: "web-development" },
@@ -77,7 +79,12 @@ function Footer() {
       name: "Twitter",
       url: "https://x.com/iAmGreatRoyce",
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -135,7 +142,9 @@ function Footer() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {/* Brand Section */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <h4 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">GreatRoyce</h4>
+            <h4 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+              GreatRoyce
+            </h4>
             <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
               Full-stack developer specializing in creating digital experiences
               that matter.
@@ -167,7 +176,7 @@ function Footer() {
                 <li key={link.id}>
                   <button
                     onClick={() => scrollToSection(link.id)}
-                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm sm:text-base w-full text-left hover:translate-x-1 transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-1"
+                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm sm:text-base w-full text-left hover:translate-x-1 transform focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-1"
                   >
                     {link.name}
                   </button>
@@ -184,7 +193,7 @@ function Footer() {
                 <li key={service.id}>
                   <button
                     onClick={() => handleServiceClick(service.name)}
-                    className="text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer text-left w-full hover:translate-x-1 transform duration-200 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-1"
+                    className="text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer text-left w-full hover:translate-x-1 transform text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-1"
                   >
                     {service.name}
                   </button>
