@@ -13,6 +13,7 @@ const projectRoutes = require("./src/routes/project.routes");
 const contactRoutes = require("./src/routes/contact.routes");
 const adminRoutes = require("./src/routes/admin.routes"); // login only
 const adminDataRoutes = require("./src/routes/adminData.routes"); // protected admin routes (uploads, projects)
+const mailRoutes = require("./src/routes/mail.routes");
 // const sendMail = require("./src/utils/mailer");
 
 // =======================
@@ -31,7 +32,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // ✅ your React frontend
+    origin: "http://localhost:5175", // ✅ your React frontend
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true, // allow sending cookies/auth headers
   })
@@ -83,6 +84,8 @@ app.use("/api/v1/admin", adminRoutes);
 
 // Protected admin routes (projects, uploads, contacts)
 app.use("/api/v1/admin/data", adminDataRoutes);
+
+app.use("/api/v1/mail", mailRoutes);
 
 // =======================
 // Error Handling Middleware

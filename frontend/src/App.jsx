@@ -13,6 +13,7 @@ import ProtectedRoute from "./admin/ProtectedRoute";
 import "./App.css";
 import CVUpload from "./admin/CVUpload";
 
+
 function App() {
   return (
     <Router>
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<ParentPage />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+   
 
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 import { ThemeContext } from "../pages/ParentPage";
 import royce from "../assets/royce1.jpg";
 import card from "../assets/dots.png";

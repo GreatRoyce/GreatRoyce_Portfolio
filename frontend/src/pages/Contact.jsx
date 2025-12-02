@@ -1,35 +1,33 @@
-import React, { useState, useContext } from "react";
-import Buttons from "../components/Button";
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { ThemeContext } from "../pages/ParentPage";
-import { FaGithub, FaLinkedin, FaTwitter, FaPhone } from "react-icons/fa";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaTwitter,
+  FaPhone,
+  FaWhatsapp,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
+import Formspree from "../components/Formspree";
 
 function Contact() {
   const { isDarkMode } = useContext(ThemeContext);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
-    // You can add your form submission logic (email service, API call, etc.)
-  };
 
   const handlePhoneClick = () => {
-    // This will trigger the native phone dialer on mobile devices
     window.location.href = "tel:+2347066070465";
+  };
+
+  const handleWhatsAppClick = () => {
+    const message = encodeURIComponent(
+      "Hello Royce, I'd like to discuss a project with you."
+    );
+    window.open(
+      `https://wa.me/2347066070465?text=${message}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
   };
 
   const socialLinks = [
@@ -51,6 +49,13 @@ function Contact() {
       label: "Twitter",
       color: "hover:text-blue-400 dark:hover:text-blue-300",
     },
+    {
+      icon: FaWhatsapp,
+      href: "https://wa.me/2347066070465",
+      label: "WhatsApp",
+      color: "hover:text-green-600 dark:hover:text-green-400",
+      onClick: handleWhatsAppClick,
+    },
   ];
 
   return (
@@ -62,7 +67,7 @@ function Contact() {
     >
       <div className="pt-16 px-2 sm:px-12">
         <motion.h4
-          className={` mx-auto text-center text-3xl font-bold transition-colors duration-300 ${
+          className={`mx-auto text-center text-3xl font-bold transition-colors duration-300 ${
             isDarkMode ? "text-white" : "text-gray-800"
           }`}
           initial={{ opacity: 0, y: 30 }}
@@ -70,13 +75,26 @@ function Contact() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          Contact
+          Get In Touch
         </motion.h4>
 
-        <div className="max-w-6xl py-8 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
+        <motion.p
+          className={`text-center mt-4 mb-12 max-w-2xl mx-auto transition-colors duration-300 ${
+            isDarkMode ? "text-gray-300" : "text-gray-600"
+          }`}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          Have a project in mind? Let's collaborate! Send me a message and I'll
+          get back to you within 24 hours.
+        </motion.p>
+
+        <div className="max-w-6xl py-8 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* Left Column: Formspree Form */}
           <motion.div
-            className={` shadow-lg p-8 transition-colors duration-300 ${
+            className={`shadow-xl rounded-2xl p-6 md:p-8 transition-colors duration-300 ${
               isDarkMode ? "bg-gray-800" : "bg-white"
             }`}
             initial={{ opacity: 0, x: -50 }}
@@ -85,129 +103,41 @@ function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h6
-              className={`text-2xl font-bold mb-6 transition-colors duration-300 ${
+              className={`text-2xl font-bold mb-2 transition-colors duration-300 ${
                 isDarkMode ? "text-white" : "text-gray-800"
               }`}
             >
-              Send me a message
+              Send a Message
             </h6>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
-                      isDarkMode ? "text-gray-300" : "text-gray-700"
-                    }`}
-                  >
-                    Name <span className="text-[#cc4e00]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className={`w-full px-2 py-1 border focus:ring-2 focus:ring-[#57aee8] focus:border-transparent transition-all duration-200 ${
-                      isDarkMode
-                        ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                        : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
-                    }`}
-                    placeholder="Your name"
-                  />
-                </div>
+            <p
+              className={`mb-6 ${
+                isDarkMode ? "text-gray-300" : "text-gray-600"
+              }`}
+            >
+              Fill out the form below and I'll respond promptly.
+            </p>
 
-                <div>
-                  <label
-                    htmlFor="email"
-                    className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
-                      isDarkMode ? "text-gray-300" : "text-gray-700"
-                    }`}
-                  >
-                    Email Address <span className="text-[#cc4e00]">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className={`w-full px-2 py-1 border focus:ring-2 focus:ring-[#57aee8] focus:border-transparent transition-all duration-200 ${
-                      isDarkMode
-                        ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                        : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
-                    }`}
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="subject"
-                  className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
-                    isDarkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
-                >
-                  Subject <span className="text-[#cc4e00]">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className={`w-full px-2 py-1 border focus:ring-2 focus:ring-[#57aee8] focus:border-transparent transition-all duration-200 ${
-                    isDarkMode
-                      ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                      : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
-                  }`}
-                  placeholder="What is this regarding?"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className={`block text-sm font-medium mb-2 transition-colors duration-300 ${
-                    isDarkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
-                >
-                  Message <span className="text-[#cc4e00]">*</span>
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows="6"
-                  className={`w-full px-2 py-1 border focus:ring-2 focus:ring-[#57aee8] focus:border-transparent transition-all duration-200 resize-vertical ${
-                    isDarkMode
-                      ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                      : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
-                  }`}
-                  placeholder="Tell me about your project..."
-                />
-              </div>
-
-              <Buttons
-                type="submit"
-                variant="outline"
-                className="w-full bg-[#57aee8] hover:bg-white hover:text-[#57aee8] scale-105 transform transition-all duration-300 shadow-md hover:shadow-lg"
-                size="medium"
-              >
-                Send Message
-              </Buttons>
-            </form>
+            {/* Formspree Component */}
+            <Formspree
+              formId="mjknrebn"
+              compact={false}
+              title={null}
+              subtitle={null}
+              darkMode={isDarkMode}
+              showSubject={true}
+              autoFocus={false}
+              showSuccessMessage={true}
+              successMessage="Message sent successfully! I'll get back to you within 24 hours at both email addresses."
+              buttonText="Send Message"
+              buttonSubmittingText="Sending..."
+              buttonSuccessText="Message Sent!"
+              className="mt-2"
+            />
           </motion.div>
 
-          {/* Contact Information */}
+          {/* Right Column: Contact Information */}
           <motion.div
-            className={`p-2 rounded-2xl shadow-lg sm:p-6 transition-colors duration-300 ${
+            className={`shadow-xl rounded-2xl p-6 md:p-8 transition-colors duration-300 ${
               isDarkMode ? "bg-gray-800" : "bg-white"
             }`}
             initial={{ opacity: 0, x: 50 }}
@@ -223,47 +153,35 @@ function Contact() {
               Contact Information
             </h6>
 
-            <div className="space-y-2">
-              {/* Address */}
+            <div className="space-y-8">
+              {/* Location */}
               <motion.div
-                className="flex items-start space-x-4"
+                className="flex items-start space-x-4 group cursor-pointer"
                 whileHover={{ x: 5 }}
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className={`flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center transition-colors duration-300 ${
-                    isDarkMode ? "bg-blue-900/30" : "bg-blue-100"
+                  className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+                    isDarkMode
+                      ? "bg-blue-900/30 group-hover:bg-blue-800/50"
+                      : "bg-blue-100 group-hover:bg-blue-200"
                   }`}
                 >
-                  <svg
-                    className={`w-3 h-3 transition-colors duration-300 ${
-                      isDarkMode ? "text-blue-400" : "text-blue-600"
+                  <FaMapMarkerAlt
+                    className={`w-5 h-5 transition-colors duration-300 ${
+                      isDarkMode
+                        ? "text-blue-400 group-hover:text-blue-300"
+                        : "text-blue-600 group-hover:text-blue-700"
                     }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
+                  />
                 </div>
                 <div>
                   <h6
-                    className={`font-semibold mb-1 transition-colors duration-300 ${
+                    className={`font-semibold mb-1 transition-colors duration-300 group-hover:text-[#57aee8] ${
                       isDarkMode ? "text-white" : "text-gray-800"
                     }`}
                   >
-                    Address
+                    Location
                   </h6>
                   <p
                     className={`transition-colors duration-300 ${
@@ -273,7 +191,7 @@ function Contact() {
                     Lagos, Nigeria
                   </p>
                   <p
-                    className={`text-sm transition-colors duration-300 ${
+                    className={`text-sm mt-1 transition-colors duration-300 ${
                       isDarkMode ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
@@ -282,7 +200,7 @@ function Contact() {
                 </div>
               </motion.div>
 
-              {/* Phone - Now Clickable */}
+              {/* Phone */}
               <motion.a
                 href="tel:+2347066070465"
                 onClick={handlePhoneClick}
@@ -291,14 +209,14 @@ function Contact() {
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className={`flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+                  className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
                     isDarkMode
-                      ? "bg-green-900/30 group-hover:bg-green-800"
+                      ? "bg-green-900/30 group-hover:bg-green-800/50"
                       : "bg-green-100 group-hover:bg-green-200"
                   }`}
                 >
                   <FaPhone
-                    className={`w-3 h-3 transition-colors duration-300 ${
+                    className={`w-5 h-5 transition-colors duration-300 ${
                       isDarkMode
                         ? "text-green-400 group-hover:text-green-300"
                         : "text-green-600 group-hover:text-green-700"
@@ -321,12 +239,12 @@ function Contact() {
                     +234 706 607 0465
                   </p>
                   <p
-                    className={`text-sm transition-colors duration-300 ${
+                    className={`text-sm mt-1 transition-colors duration-300 ${
                       isDarkMode ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
                     <span className="group-hover:text-[#57aee8] transition-colors duration-300">
-                      Click to call 
+                      Click to call • Available 9AM - 6PM WAT
                     </span>
                   </p>
                 </div>
@@ -334,72 +252,68 @@ function Contact() {
 
               {/* Email */}
               <motion.div
-                className="flex items-start space-x-4"
+                className="flex items-start space-x-4 group"
                 whileHover={{ x: 5 }}
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className={`flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center transition-colors duration-300 ${
-                    isDarkMode ? "bg-purple-900/30" : "bg-purple-100"
+                  className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+                    isDarkMode
+                      ? "bg-purple-900/30 group-hover:bg-purple-800/50"
+                      : "bg-purple-100 group-hover:bg-purple-200"
                   }`}
                 >
-                  <svg
-                    className={`w-3 h-3 transition-colors duration-300 ${
-                      isDarkMode ? "text-purple-400" : "text-purple-600"
+                  <FaEnvelope
+                    className={`w-5 h-5 transition-colors duration-300 ${
+                      isDarkMode
+                        ? "text-purple-400 group-hover:text-purple-300"
+                        : "text-purple-600 group-hover:text-purple-700"
                     }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
+                  />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <h6
-                    className={`font-semibold transition-colors duration-300 ${
+                    className={`font-semibold transition-colors duration-300 group-hover:text-[#57aee8] ${
                       isDarkMode ? "text-white" : "text-gray-800"
                     }`}
                   >
                     Email
                   </h6>
-                  <a
-                    href="mailto:iamgreatroyce@gmail.com"
-                    className={`transition-colors duration-200 block hover:text-[#57aee8] ${
-                      isDarkMode ? "text-gray-300" : "text-gray-600"
-                    }`}
-                  >
-                    iamgreatroyce@gmail.com
-                  </a>
+                  <div className="space-y-1">
+                    <a
+                      href="mailto:royceokoh@gmail.com"
+                      className={`transition-colors duration-200 block hover:text-[#57aee8] font-medium ${
+                        isDarkMode ? "text-gray-300" : "text-gray-600"
+                      }`}
+                    >
+                      royceokoh@gmail.com
+                    </a>
+                  </div>
                   <p
-                    className={`text-sm transition-colors duration-300 ${
+                    className={`text-sm mt-2 transition-colors duration-300 ${
                       isDarkMode ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
-                    I'll respond within 24 hours
+                    I’ll get back to you within 24 hours — usually sooner!
                   </p>
                 </div>
               </motion.div>
             </div>
 
             {/* Quick Action Buttons */}
-            <div className="hidden mt-8 rounded-lg bg-gray-100 dark:bg-gray-700">
+            <div className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-700">
               <p
-                className={`text-sm mb-3 text-center ${
+                className={`text-sm mb-4 text-center ${
                   isDarkMode ? "text-gray-300" : "text-gray-600"
                 }`}
               >
-                Quick actions:
+                Prefer instant communication?
               </p>
-              <div className="flex gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 <motion.a
                   href="tel:+2347066070465"
                   onClick={handlePhoneClick}
-                  className={`flex-1 py-2 px-3 text-center rounded-lg font-medium transition-all duration-200 hover:scale-105 ${
+                  className={`py-3 px-4 text-center rounded-xl font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2 ${
                     isDarkMode
                       ? "bg-green-600 hover:bg-green-500 text-white"
                       : "bg-green-500 hover:bg-green-600 text-white"
@@ -407,13 +321,13 @@ function Contact() {
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Call Now
+                  <FaPhone className="w-4 h-4" />
+                  <span>Call Now</span>
                 </motion.a>
-                <motion.a
-                  href="https://wa.me/2347066070465"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex-1 py-2 px-3 text-center rounded-lg font-medium transition-all duration-200 hover:scale-105 ${
+
+                <motion.button
+                  onClick={handleWhatsAppClick}
+                  className={`py-3 px-4 text-center rounded-xl font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2 ${
                     isDarkMode
                       ? "bg-green-600 hover:bg-green-500 text-white"
                       : "bg-green-500 hover:bg-green-600 text-white"
@@ -421,43 +335,64 @@ function Contact() {
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  WhatsApp
-                </motion.a>
+                  <FaWhatsapp className="w-4 h-4" />
+                  <span>WhatsApp</span>
+                </motion.button>
               </div>
+              <p
+                className={`text-xs text-center mt-3 ${
+                  isDarkMode ? "text-gray-400" : "text-gray-500"
+                }`}
+              >
+                WhatsApp: +234 706 607 0465 • Quick responses
+              </p>
             </div>
 
-            {/* Social Links with Icons */}
-            <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+            {/* Social Links */}
+            <div className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-700">
               <h6
                 className={`font-semibold mb-4 transition-colors duration-300 ${
                   isDarkMode ? "text-white" : "text-gray-800"
                 }`}
               >
-                Follow me on
+                Connect with me
               </h6>
               <div className="flex space-x-4">
-                {socialLinks.map((social, index) => {
+                {socialLinks.map((social) => {
                   const IconComponent = social.icon;
                   return (
-                    <motion.a
+                    <motion.button
                       key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`w-12 h-12 rounded-lg flex items-center justify-center transition-all duration-200 hover:scale-110 ${
+                      onClick={
+                        social.onClick
+                          ? social.onClick
+                          : () =>
+                              window.open(
+                                social.href,
+                                "_blank",
+                                "noopener,noreferrer"
+                              )
+                      }
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110 ${
                         isDarkMode
                           ? "bg-gray-700 text-gray-300 hover:bg-[#57aee8] hover:text-white"
                           : "bg-gray-100 text-gray-600 hover:bg-[#57aee8] hover:text-white"
                       } ${social.color}`}
-                      whileHover={{ y: -2 }}
+                      whileHover={{ y: -3 }}
                       whileTap={{ scale: 0.95 }}
                       aria-label={social.label}
+                      title={social.label}
                     >
                       <IconComponent className="w-5 h-5" />
-                    </motion.a>
+                    </motion.button>
                   );
                 })}
               </div>
+            </div>
+
+            {/* Privacy Note */}
+            <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+             
             </div>
           </motion.div>
         </div>

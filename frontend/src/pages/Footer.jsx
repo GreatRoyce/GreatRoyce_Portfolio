@@ -207,11 +207,13 @@ function Footer() {
             <h5 className="font-semibold text-lg mb-3 sm:mb-4">Contact</h5>
             <div className="space-y-2 sm:space-y-3 text-gray-400">
               <a
-                href="mailto:iamgreatroyce@gmail.com"
+                href="mailto:royceokoh@gmail.com"
                 className="hover:text-white transition-colors duration-200 block text-sm sm:text-base break-words"
               >
-                iamgreatroyce@gmail.com
+                royceokoh@gmail.com
               </a>
+            
+            
               <a
                 href="tel:+2347066070465"
                 className="hover:text-white transition-colors duration-200 block text-sm sm:text-base"
