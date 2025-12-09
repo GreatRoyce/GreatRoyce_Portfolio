@@ -22,6 +22,7 @@ function App() {
         <Route path="/" element={<ParentPage />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        
    
 
         {/* Admin Routes */}

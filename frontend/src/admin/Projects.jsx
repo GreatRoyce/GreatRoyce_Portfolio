@@ -14,47 +14,55 @@ function Projects() {
     liveDemo: "",
     dateCompleted: "",
   });
+
   const [image, setImage] = useState(null);
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Reusable form handler
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   useEffect(() => {
     fetchProjects();
   }, []);
 
-  // Fetch projects (public route)
+  // Fetch all projects
   const fetchProjects = async () => {
     try {
       setLoading(true);
       const { data } = await api.get("/projects");
       setProjects(data);
-      setLoading(false);
+      setError("");
     } catch (err) {
       console.error("Error fetching projects:", err);
-      setError("Failed to load projects");
+      const message = err.response?.data?.message || "Failed to load projects.";
+      setError(message);
+    } finally {
       setLoading(false);
     }
   };
 
-  // Create new project
+  // Create project
   const handleCreate = async (e) => {
     e.preventDefault();
+
     try {
       setLoading(true);
+
       const formData = new FormData();
-      formData.append("title", form.title);
-      formData.append("description", form.description);
-      formData.append("category", form.category);
-      formData.append("technologies", form.technologies); // comma-separated string
-      formData.append("githubLink", form.githubLink);
-      formData.append("liveDemo", form.liveDemo);
-      formData.append("dateCompleted", form.dateCompleted);
+      Object.keys(form).forEach((key) => {
+        formData.append(key, form[key]);
+      });
 
       if (image) formData.append("image", image);
       if (video) formData.append("video", video);
 
       await api.post("/admin/data/projects", formData);
+
+      // Reset form
       setForm({
         title: "",
         description: "",
@@ -66,125 +74,176 @@ function Projects() {
       });
       setImage(null);
       setVideo(null);
+
       fetchProjects();
-      setLoading(false);
+      setError("");
     } catch (err) {
       console.error("Error creating project:", err);
-      setError("Failed to create project");
+      const message =
+        err.response?.data?.message || "Failed to create project.";
+      setError(message);
+    } finally {
       setLoading(false);
     }
   };
 
   // Delete project
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this project?")) return;
+    if (!window.confirm("Are you sure you want to delete this project?"))
+      return;
+
     try {
       setLoading(true);
       await api.delete(`/admin/data/projects/${id}`);
       fetchProjects();
-      setLoading(false);
+      setError("");
     } catch (err) {
       console.error("Error deleting project:", err);
-      setError("Failed to delete project");
+      const message =
+        err.response?.data?.message || "Failed to delete project.";
+      setError(message);
+    } finally {
       setLoading(false);
     }
   };
 
   return (
     <div className="flex">
-      <div className="w-64"><Sidebar /></div>
-      <div className="flex-1 p-6">
-        <h2 className="text-2xl font-bold mb-4">Projects</h2>
+      {/* Sidebar */}
+      <aside className="w-64">
+        <Sidebar />
+      </aside>
 
-        {error && <p className="text-red-500 mb-2">{error}</p>}
-        {loading && <p className="text-blue-500 mb-2">Loading...</p>}
+      {/* Main Content */}
+      <main className="flex-1 p-6">
+        <h2 className="text-3xl font-bold mb-4">Projects Management</h2>
 
-        {/* Create Project Form */}
-        <form onSubmit={handleCreate} className="mb-6 border p-4 rounded">
-          <input
-            type="text"
-            placeholder="Title"
-            value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
-            className="border p-2 w-full mb-2 rounded"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Description"
-            value={form.description}
-            onChange={(e) => setForm({ ...form, description: e.target.value })}
-            className="border p-2 w-full mb-2 rounded"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Category"
-            value={form.category}
-            onChange={(e) => setForm({ ...form, category: e.target.value })}
-            className="border p-2 w-full mb-2 rounded"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Technologies (comma-separated)"
-            value={form.technologies}
-            onChange={(e) => setForm({ ...form, technologies: e.target.value })}
-            className="border p-2 w-full mb-2 rounded"
-          />
-          <input
-            type="text"
-            placeholder="GitHub Link"
-            value={form.githubLink}
-            onChange={(e) => setForm({ ...form, githubLink: e.target.value })}
-            className="border p-2 w-full mb-2 rounded"
-          />
-          <input
-            type="text"
-            placeholder="Live Demo Link"
-            value={form.liveDemo}
-            onChange={(e) => setForm({ ...form, liveDemo: e.target.value })}
-            className="border p-2 w-full mb-2 rounded"
-          />
-          <input
-            type="date"
-            placeholder="Date Completed"
-            value={form.dateCompleted}
-            onChange={(e) => setForm({ ...form, dateCompleted: e.target.value })}
-            className="border p-2 w-full mb-2 rounded"
-          />
+        {error && <p className="text-red-500 mb-3">{error}</p>}
+        {loading && <p className="text-blue-500 mb-3">Processing...</p>}
 
-          <input type="file" onChange={(e) => setImage(e.target.files[0])} className="mb-2" />
-          {image && <p className="text-sm mb-2">Selected image: {image.name}</p>}
+        <section className="mb-6 border p-4 rounded bg-white shadow">
+          <h3 className="text-xl font-semibold mb-3">Create New Project</h3>
 
-          <input type="file" onChange={(e) => setVideo(e.target.files[0])} className="mb-2" />
-          {video && <p className="text-sm mb-2">Selected video: {video.name}</p>}
+          <form onSubmit={handleCreate}>
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={form.title}
+              onChange={handleChange}
+              className="border p-2 w-full mb-2 rounded"
+              required
+            />
 
-          <button
-            type="submit"
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-          >
-            Create Project
-          </button>
-        </form>
+            <textarea
+              name="description"
+              placeholder="Description"
+              value={form.description}
+              onChange={handleChange}
+              className="border p-2 w-full mb-2 rounded"
+              required
+            />
+
+            <input
+              type="text"
+              name="category"
+              placeholder="Category"
+              value={form.category}
+              onChange={handleChange}
+              className="border p-2 w-full mb-2 rounded"
+              required
+            />
+
+            <input
+              type="text"
+              name="technologies"
+              placeholder="Technologies (comma-separated)"
+              value={form.technologies}
+              onChange={handleChange}
+              className="border p-2 w-full mb-2 rounded"
+            />
+
+            <input
+              type="text"
+              name="githubLink"
+              placeholder="GitHub Link"
+              value={form.githubLink}
+              onChange={handleChange}
+              className="border p-2 w-full mb-2 rounded"
+            />
+
+            <input
+              type="text"
+              name="liveDemo"
+              placeholder="Live Demo Link"
+              value={form.liveDemo}
+              onChange={handleChange}
+              className="border p-2 w-full mb-2 rounded"
+            />
+
+            <input
+              type="date"
+              name="dateCompleted"
+              value={form.dateCompleted}
+              onChange={handleChange}
+              className="border p-2 w-full mb-2 rounded"
+            />
+
+            {/* File Inputs */}
+            <label className="font-semibold">Image:</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImage(e.target.files[0])}
+              className="mb-2"
+            />
+            {image && <p className="text-sm mb-2">Selected: {image.name}</p>}
+
+            <label className="font-semibold">Video:</label>
+            <input
+              type="file"
+              accept="video/*"
+              onChange={(e) => setVideo(e.target.files[0])}
+              className="mb-2"
+            />
+            {video && <p className="text-sm mb-2">Selected: {video.name}</p>}
+
+            <button
+              type="submit"
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            >
+              Create Project
+            </button>
+          </form>
+        </section>
 
         {/* Projects List */}
-        <ul>
-          {projects.map((p) => (
-            <li key={p._id} className="border-b py-2 flex justify-between items-center">
-              <div>
-                <strong>{p.title}</strong> | {p.category}
-              </div>
-              <button
-                onClick={() => handleDelete(p._id)}
-                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+        <section>
+          <h3 className="text-xl font-semibold mb-2">
+            All Projects ({projects.length})
+          </h3>
+
+          <ul className="bg-white shadow rounded p-4">
+            {projects.map((p) => (
+              <li
+                key={p._id}
+                className="border-b py-3 flex justify-between items-center"
               >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+                <div>
+                  <strong>{p.title}</strong> — {p.category}
+                </div>
+
+                <button
+                  onClick={() => handleDelete(p._id)}
+                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </main>
     </div>
   );
 }

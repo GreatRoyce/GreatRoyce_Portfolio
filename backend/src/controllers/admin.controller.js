@@ -1,47 +1,23 @@
 const Admin = require("../models/Admin.model");
 const jwt = require("jsonwebtoken");
 
+// Generate token
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "7d",
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+};
+
+// Admin Login
+exports.loginAdmin = async (req, res) => {
+  const { email, password } = req.body;
+
+  const admin = await Admin.findOne({ email });
+  if (!admin) return res.status(401).json({ error: "Invalid credentials" });
+
+  const isMatch = await admin.matchPassword(password);
+  if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
+
+  res.status(200).json({
+    message: "Admin logged in",
+    token: generateToken(admin._id),
   });
-};
-
-// =======================
-// 📝 Admin Login
-// =======================
-const loginAdmin = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "Please provide email and password.",
-      });
-    }
-
-    // Check if admin exists
-    const admin = await Admin.findOne({ email });
-
-    if (admin && (await admin.matchPassword(password))) {
-      res.json({
-        success: true,
-        _id: admin._id,
-        email: admin.email,
-        token: generateToken(admin._id),
-      });
-    } else {
-      res.status(401).json({ success: false, message: "Invalid Credentials" });
-    }
-  } catch (err) {
-    console.error("Error logging in admin:", err);
-    res
-      .status(500)
-      .json({ success: false, message: "Server error during login" });
-  }
-};
-
-module.exports = {
-  loginAdmin,
 };

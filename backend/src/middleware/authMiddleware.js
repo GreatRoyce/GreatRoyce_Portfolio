@@ -8,10 +8,11 @@ const protect = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     const admin = await Admin.findById(decoded.id);
     if (!admin) return res.status(401).json({ message: "Admin not found" });
 
-    req.admin = admin;
+    req.admin = admin; // store admin details for later use
     next();
   } catch (err) {
     console.error("Auth error:", err);
