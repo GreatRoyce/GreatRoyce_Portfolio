@@ -226,7 +226,7 @@ function Projects() {
           <ul className="bg-white shadow rounded p-4">
             {projects.map((p) => (
               <li
-                key={p._id}
+                key={p.id}
                 className="border-b py-3 flex justify-between items-center"
               >
                 <div>
@@ -234,7 +234,7 @@ function Projects() {
                 </div>
 
                 <button
-                  onClick={() => handleDelete(p._id)}
+                  onClick={() => handleDelete(p.id)}
                   className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                 >
                   Delete

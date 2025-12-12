@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 import { ThemeContext } from "../pages/ParentPage";
 import royce from "../assets/royce1.jpg";
 import card from "../assets/dots.png";
@@ -118,18 +118,19 @@ function About() {
             <motion.div
               variants={imageVariants}
               whileHover="hover"
-              className={`rounded-full p-4 ${
+              className={`rounded-2xl p-4 ${
                 isDarkMode
                   ? "bg-gradient-to-br from-gray-800 to-gray-700 shadow-2xl"
                   : "bg-gradient-to-br from-blue-50 to-gray-100 shadow-xl"
               }`}
             >
               <motion.img
-                className="rounded-full w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80 object-cover border-4 border-[#57aee8] shadow-lg"
+                className="rounded-2xl w-48 h-48 sm:w-64 sm:h-64 lg:w-50 lg:h-80 object-cover border-4 border-[#57aee8] shadow-lg"
                 src={royce}
                 alt="Okoh Chukwudi (GreatRoyce) - MERN Stack Developer"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
+                style={{}}
               />
             </motion.div>
           </motion.div>
@@ -170,8 +171,9 @@ function About() {
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
                 I write clean, intentional code, but I also write stories,
-                music, and ideas that resonate. And so, I bring narrative strength,
-                versatility, and expressive detail into everything I create.
+                music, and ideas that resonate. And so, I bring narrative
+                strength, versatility, and expressive detail into everything I
+                create.
               </motion.p>
 
               <motion.div
