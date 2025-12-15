@@ -328,7 +328,7 @@ function Projects() {
                   )}
                 </div>
 
-                <p className={`text-sm mb-4 line-clamp-2 min-h-[3rem] ${
+                <p className={`text-sm mb-4 line-clamp-2 min-h-[20vh] ${
                   isDarkMode ? 'text-gray-400' : 'text-gray-600'
                 }`}>
                   {project.description}
@@ -347,13 +347,13 @@ function Projects() {
                       {tech}
                     </span>
                   ))}
-                  {project.technologies.length > 4 && (
-                    <span className={`text-xs px-3 py-1.5 rounded-lg ${
+                  {project.technologies.length > 1 && (
+                    <span className={`text-[10px] px-3 py-1.5 rounded-lg ${
                       isDarkMode
                         ? 'bg-gray-700 text-gray-400'
                         : 'bg-gray-100 text-gray-600'
                     }`}>
-                      +{project.technologies.length - 4}
+                      +{project.technologies.length - 2}
                     </span>
                   )}
                 </div>

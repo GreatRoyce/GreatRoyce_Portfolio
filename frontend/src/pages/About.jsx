@@ -89,7 +89,7 @@ function About() {
   return (
     <section
       id="about"
-      className={`shadow-2xl bg-cover bg-center bg-no-repeat py-16 transition-colors duration-300 ${
+      className={`shadow-2xl bg-cover bg-center bg-no-repeat py-8 transition-colors duration-300 ${
         isDarkMode ? "bg-gray-900" : "bg-white"
       }`}
     >

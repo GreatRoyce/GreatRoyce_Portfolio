@@ -126,7 +126,7 @@ function Services() {
               </div>
 
               <h5
-                className={`font-bold text-md w-4/5 mx-auto mb-4 transition-colors duration-300 ${
+                className={`font-bold text-md w-3/4 mx-auto mb-4 transition-colors duration-300 ${
                   isDarkMode
                     ? "text-[#cc4e00] group-hover:text-[#57aee8]"
                     : "text-gray-300 group-hover:text-[#57aee8]"

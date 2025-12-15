@@ -75,7 +75,7 @@ function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-screen overflow-hidden flex items-center justify-center pt-16"
+      className="relative min-h-screen rounded-3xl overflow-hidden flex items-center justify-center pt-16"
     >
       {/* Theme-based Background Image (Covering entire section) */}
       <div className="absolute inset-0 z-0">
@@ -86,7 +86,7 @@ function HeroSection() {
               className="absolute inset-0 bg-cover bg-no-repeat"
               style={{
                 backgroundImage: `url(${secondHeroBg})`,
-                backgroundPosition: "center top 20%",
+                backgroundPosition: "center top 40%",
                 backgroundSize: "cover",
               }}
               initial={{ opacity: 0 }}
@@ -228,7 +228,7 @@ function HeroSection() {
                   variant="primary"
                   className={`w-full sm:w-auto min-w-[140px] text-center ${
                     isDarkMode
-                      ? "bg-gray-800 text-white border border-gray-600 hover:bg-gray-700 hover:border-gray-500"
+                      ? "bg-gray-800 text-[#cc4e00] border border-gray-600 hover:bg-gray-700 hover:border-gray-500"
                       : "bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 hover:border-white/50"
                   } hover:scale-105 transform transition-all duration-300 shadow-lg hover:shadow-xl font-semibold`}
                   size="large"
@@ -238,7 +238,7 @@ function HeroSection() {
                 </Buttons>
               </motion.div>
               <motion.div variants={buttonVariants}>
-                <Buttons
+                {/* <Buttons
                   variant="outline"
                   className={`w-full sm:w-auto min-w-[140px] text-center ${
                     isDarkMode
@@ -249,7 +249,7 @@ function HeroSection() {
                   onClick={handleDownloadCvClick}
                 >
                   Download CV
-                </Buttons>
+                </Buttons> */}
               </motion.div>
             </motion.div>
 
@@ -282,7 +282,7 @@ function HeroSection() {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
+      {/* <motion.div
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden lg:block"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -301,7 +301,7 @@ function HeroSection() {
             transition={{ duration: 1.5, repeat: Infinity }}
           />
         </div>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }
