@@ -12,6 +12,7 @@ import ProtectedRoute from "./admin/ProtectedRoute";
 
 import "./App.css";
 import CVUpload from "./admin/CVUpload";
+import Resume from "./components/Resume";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<ParentPage />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/resume" element={<Resume />} />
         
    
 

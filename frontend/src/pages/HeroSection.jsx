@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import heroBackground from "../assets/whiteS.jpg";
 import secondHeroBg from "../assets/blueS.jpg";
 import { ThemeContext } from "../pages/ParentPage";
+import { Link } from "react-router-dom";
 
 function HeroSection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -19,26 +20,6 @@ function HeroSection() {
     }
   }, []);
 
-  // Download CV dynamically from backend
-  const handleDownloadCvClick = useCallback(async () => {
-    try {
-      const response = await fetch("/api/cv/download-cv");
-      if (!response.ok) throw new Error("Failed to download CV");
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "GreatRoyce_CV.pdf";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to download CV. Please try again.");
-    }
-  }, []);
 
   // Manual image navigation
   const goToImage = useCallback((index) => setCurrentImageIndex(index), []);
@@ -86,7 +67,7 @@ function HeroSection() {
               className="absolute inset-0 bg-cover bg-no-repeat"
               style={{
                 backgroundImage: `url(${secondHeroBg})`,
-                backgroundPosition: "center top 40%",
+                backgroundPosition: "center top 20%",
                 backgroundSize: "cover",
               }}
               initial={{ opacity: 0 }}
@@ -238,7 +219,8 @@ function HeroSection() {
                 </Buttons>
               </motion.div>
               <motion.div variants={buttonVariants}>
-                {/* <Buttons
+                  <Link to="/resume">
+                <Buttons
                   variant="outline"
                   className={`w-full sm:w-auto min-w-[140px] text-center ${
                     isDarkMode
@@ -246,10 +228,13 @@ function HeroSection() {
                       : "border-2 border-white text-white hover:bg-white hover:text-[#57aee8] backdrop-blur-sm"
                   } hover:scale-105 transform transition-all duration-300 font-semibold`}
                   size="large"
-                  onClick={handleDownloadCvClick}
+                 
                 >
-                  Download CV
-                </Buttons> */}
+                
+                  View Resume
+                 
+                </Buttons>
+                 </Link>
               </motion.div>
             </motion.div>
 

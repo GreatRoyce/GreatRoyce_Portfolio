@@ -105,7 +105,7 @@ function Footer() {
 
   return (
     <footer
-      className={`foot px-4 sm:px-6 lg:px-8 text-white transition-colors duration-300 ${
+      className={`foot px-8 sm:px-6 lg:px-8 text-white transition-colors duration-300 ${
         isDarkMode ? "bg-gray-900" : "bg-gray-800"
       }`}
     >
