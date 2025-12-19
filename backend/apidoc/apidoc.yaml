@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: GreatRoyce Portfolio
+  description: API documentation for Portfolio project
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+paths:
+  /security/alert:
+    post:
+      summary: Send a security alert email
+      description: Sends an email alert with the IP, user agent, and time of a security event.
+      tags:
+        - Security
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - ip
+                - userAgent
+                - time
+              properties:
+                ip:
+                  type: string
+                  example: "192.168.1.1"
+                userAgent:
+                  type: string
+                  example: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+                time:
+                  type: string
+                  format: date-time
+                  example: "2025-12-19T09:00:00Z"
+      responses:
+        "200":
+          description: Security alert email sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Security alert email sent successfully"
+        "500":
+          description: Failed to send security alert email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Failed to send security alert email"

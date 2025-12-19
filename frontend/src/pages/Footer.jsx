@@ -8,6 +8,16 @@ function Footer() {
   const { isDarkMode } = useContext(ThemeContext);
   const currentYear = new Date().getFullYear();
 
+  // Brand color variations (same as Projects and Contact components)
+  const brandColors = {
+    primary: "#cc4e00",         // Main brand color
+    light: "#ff6f2a",           // Lighter variation
+    dark: "#a33c00",            // Darker variation
+    muted: "#ff8f4d",           // Muted for backgrounds
+    subtle: "#ffb385",          // Very light for subtle accents
+    deep: "#8c2d00",            // Deep dark for borders/text
+  };
+
   // Memoize scroll functions for better performance
   const scrollToSection = useCallback((sectionId) => {
     const section = document.getElementById(sectionId);
@@ -109,31 +119,47 @@ function Footer() {
         isDarkMode ? "bg-gray-900" : "bg-gray-800"
       }`}
     >
-      {/* CTA Section with Blurred Background */}
+      {/* CTA Section with Brand Overlay */}
       <div
         style={{ backgroundImage: `url(${net})` }}
         className="relative bg-cover bg-no-repeat bg-center py-12 lg:py-16"
       >
-        {/* Blur Overlay */}
-        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+        {/* Brand Color Overlay */}
+        <div 
+          className="absolute inset-0 backdrop-blur-sm"
+          style={{ backgroundColor: `${brandColors.dark}10` }}
+        ></div>
 
         {/* Content */}
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 leading-tight">
             Ready to start your project?
           </h3>
-          <p className="text-blue-100 text-base sm:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p 
+            className="text-base sm:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed"
+            style={{ color: "white" }}
+          >
             Let's work together to bring your ideas to life. I'm available for
             freelance work and exciting new opportunities.
           </p>
-          <Button
+          <button
             onClick={handleHireClick}
-            variant="secondary"
-            size="medium"
-            className="relative z-10 w-full sm:w-auto"
+            className="relative z-10 w-full sm:w-auto px-8 py-3 rounded-full font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            style={{ 
+              backgroundColor: brandColors.primary,
+              boxShadow: `0 4px 14px 0 ${brandColors.primary}40`
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = brandColors.light;
+              e.currentTarget.style.boxShadow = `0 6px 20px 0 ${brandColors.primary}60`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = brandColors.primary;
+              e.currentTarget.style.boxShadow = `0 4px 14px 0 ${brandColors.primary}40`;
+            }}
           >
             Get in Touch
-          </Button>
+          </button>
         </div>
       </div>
 
@@ -142,7 +168,10 @@ function Footer() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {/* Brand Section */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <h4 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+            <h4 
+              className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4"
+              style={{ color: brandColors.subtle }}
+            >
               GreatRoyce
             </h4>
             <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
@@ -158,8 +187,22 @@ function Footer() {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors duration-200 flex items-center group"
                   aria-label={`Visit ${social.name} profile`}
+                  style={{
+                    '--hover-color': brandColors.primary
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = brandColors.primary;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = "#9ca3af";
+                  }}
                 >
-                  <span className="mr-3 group-hover:scale-110 transition-transform duration-200">
+                  <span 
+                    className="mr-3 group-hover:scale-110 transition-transform duration-200"
+                    style={{
+                      color: 'inherit'
+                    }}
+                  >
                     {social.icon}
                   </span>
                   <span className="text-sm sm:text-base">{social.name}</span>
@@ -170,13 +213,28 @@ function Footer() {
 
           {/* Navigation Links */}
           <div>
-            <h5 className="font-semibold text-lg mb-3 sm:mb-4">Navigation</h5>
+            <h5 
+              className="font-semibold text-lg mb-3 sm:mb-4"
+              style={{ color: brandColors.subtle }}
+            >
+              Navigation
+            </h5>
             <ul className="space-y-2 sm:space-y-3">
               {navigationLinks.map((link) => (
                 <li key={link.id}>
                   <button
                     onClick={() => scrollToSection(link.id)}
-                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm sm:text-base w-full text-left hover:translate-x-1 transform focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-1"
+                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm sm:text-base w-full text-left hover:translate-x-1 transform focus:outline-none rounded px-1"
+                    style={{
+                      '--hover-color': brandColors.primary,
+                      '--focus-ring': brandColors.primary
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = brandColors.primary;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = "#9ca3af";
+                    }}
                   >
                     {link.name}
                   </button>
@@ -187,13 +245,27 @@ function Footer() {
 
           {/* Services */}
           <div>
-            <h5 className="font-semibold text-lg mb-3 sm:mb-4">Services</h5>
+            <h5 
+              className="font-semibold text-lg mb-3 sm:mb-4"
+              style={{ color: brandColors.subtle }}
+            >
+              Services
+            </h5>
             <ul className="space-y-2 sm:space-y-3">
               {services.map((service) => (
                 <li key={service.id}>
                   <button
                     onClick={() => handleServiceClick(service.name)}
-                    className="text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer text-left w-full hover:translate-x-1 transform text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-1"
+                    className="text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer text-left w-full hover:translate-x-1 transform text-sm sm:text-base focus:outline-none rounded px-1"
+                    style={{
+                      '--hover-color': brandColors.primary
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = brandColors.primary;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = "#9ca3af";
+                    }}
                   >
                     {service.name}
                   </button>
@@ -204,23 +276,55 @@ function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h5 className="font-semibold text-lg mb-3 sm:mb-4">Contact</h5>
+            <h5 
+              className="font-semibold text-lg mb-3 sm:mb-4"
+              style={{ color: brandColors.subtle }}
+            >
+              Contact
+            </h5>
             <div className="space-y-2 sm:space-y-3 text-gray-400">
               <a
                 href="mailto:royceokoh@gmail.com"
                 className="hover:text-white transition-colors duration-200 block text-sm sm:text-base break-words"
+                style={{
+                  '--hover-color': brandColors.primary
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = brandColors.primary;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "#9ca3af";
+                }}
               >
                 royceokoh@gmail.com
               </a>
-            
-            
               <a
                 href="tel:+2347066070465"
                 className="hover:text-white transition-colors duration-200 block text-sm sm:text-base"
+                style={{
+                  '--hover-color': brandColors.primary
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = brandColors.primary;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "#9ca3af";
+                }}
               >
                 +234 706 607 0465
               </a>
-              <p className="hover:text-white transition-colors duration-200 text-sm sm:text-base">
+              <p 
+                className="hover:text-white transition-colors duration-200 text-sm sm:text-base"
+                style={{
+                  '--hover-color': brandColors.primary
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = brandColors.primary;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "#9ca3af";
+                }}
+              >
                 Lagos, Nigeria
               </p>
             </div>
@@ -229,7 +333,10 @@ function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-700 py-4 sm:py-6">
+      <div 
+        className="border-t py-4 sm:py-6"
+        style={{ borderColor: `${brandColors.primary}20` }}
+      >
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
           <p className="text-gray-400 text-xs sm:text-sm text-center sm:text-left">
             © {currentYear} GreatRoyce. All rights reserved.
@@ -237,13 +344,31 @@ function Footer() {
           <div className="flex space-x-4 sm:space-x-6">
             <Link
               to="/privacy-policy"
-              className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-1"
+              className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors duration-200 focus:outline-none rounded px-1"
+              style={{
+                '--hover-color': brandColors.primary
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = brandColors.primary;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "#9ca3af";
+              }}
             >
               Privacy Policy
             </Link>
             <Link
               to="/terms-of-service"
-              className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded px-1"
+              className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors duration-200 focus:outline-none rounded px-1"
+              style={{
+                '--hover-color': brandColors.primary
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = brandColors.primary;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "#9ca3af";
+              }}
             >
               Terms of Service
             </Link>
@@ -251,24 +376,50 @@ function Footer() {
         </div>
       </div>
 
-      {/* Add CSS for highlight animation */}
+      {/* Brand Color Decorative Element */}
+      <div className="py-4">
+        <div className="max-w-6xl mx-auto px-4 flex items-center justify-center gap-2">
+          {[...Array(7)].map((_, i) => (
+            <div
+              key={i}
+              className="w-1 h-1 rounded-full animate-pulse"
+              style={{
+                backgroundColor: brandColors.primary,
+                animationDelay: `${i * 200}ms`,
+                opacity: 0.7
+              }}
+            ></div>
+          ))}
+        </div>
+      </div>
+
+      {/* Add CSS for highlight animation with brand colors */}
       <style jsx>{`
         .highlight-pulse {
           animation: pulse-highlight 2s ease-in-out;
-          border: 2px solid #57aee8 !important;
-          box-shadow: 0 0 20px rgba(87, 174, 232, 0.4);
+          border: 2px solid ${brandColors.primary} !important;
+          box-shadow: 0 0 20px ${brandColors.primary}40;
         }
 
         @keyframes pulse-highlight {
           0%,
           100% {
-            box-shadow: 0 0 0 0 rgba(87, 174, 232, 0.7);
+            box-shadow: 0 0 0 0 ${brandColors.primary}70;
             transform: scale(1);
           }
           50% {
-            box-shadow: 0 0 0 10px rgba(87, 174, 232, 0);
+            box-shadow: 0 0 0 10px ${brandColors.primary}00;
             transform: scale(1.02);
           }
+        }
+
+        @keyframes brand-pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(0.9); }
+        }
+
+        .animate-pulse {
+          animation: brand-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
       `}</style>
     </footer>

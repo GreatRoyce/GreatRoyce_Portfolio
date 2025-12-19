@@ -1,20 +1,20 @@
-// server.js
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const morgan = require("morgan");
 const path = require("path");
 const connectDB = require("./database/dbConnection");
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
 
 // =======================
-// 📁 Routes
+// Routes
 // =======================
 const projectRoutes = require("./src/routes/project.routes");
 const contactRoutes = require("./src/routes/contact.routes");
-const adminRoutes = require("./src/routes/admin.routes"); // login only
-const adminDataRoutes = require("./src/routes/adminData.routes"); // protected admin routes (uploads, projects)
+const adminRoutes = require("./src/routes/admin.routes");
+const adminDataRoutes = require("./src/routes/adminData.routes");
 const mailRoutes = require("./src/routes/mail.routes");
-// const sendMail = require("./src/utils/mailer");
 
 // =======================
 // Env Variables
@@ -32,16 +32,16 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // ✅ your React frontend
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true, // allow sending cookies/auth headers
+    credentials: true,
   })
 );
 app.use(morgan("dev"));
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // serve uploaded files
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // =======================
 // Database Connection
@@ -49,22 +49,10 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // serve u
 connectDB();
 
 // =======================
-// Test Mail Route (Optional)
+// Swagger Setup
 // =======================
-// app.get("/test-mail", async (req, res) => {
-//   try {
-//     const result = await sendMail(
-//       "Royce",
-//       "royce@example.com",
-//       "Test Email",
-//       "This is a test message from my Node.js app."
-//     );
-//     res.send("✅ Email sent successfully!");
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("❌ Failed to send email.");
-//   }
-// });
+const swaggerDocument = YAML.load(path.join(__dirname, "/apidoc/apidoc.yaml"));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // =======================
 // Routes
@@ -76,13 +64,13 @@ app.get("/api/v1", (req, res) => {
 });
 
 // Public routes
-app.use("/api/v1/projects", projectRoutes); // GET /api/v1/projects and /api/v1/projects/:id
-app.use("/api/v1/contacts", contactRoutes); // POST /api/v1/contacts is public
+app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1/contacts", contactRoutes);
 
 // Admin login
 app.use("/api/v1/admin", adminRoutes);
 
-// Protected admin routes (projects, uploads, contacts)
+// Protected admin routes
 app.use("/api/v1/admin/data", adminDataRoutes);
 
 app.use("/api/v1/mail", mailRoutes);
@@ -101,4 +89,5 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running at: http://localhost:${PORT}`);
+  console.log(`📖 Swagger docs available at: http://localhost:${PORT}/api-docs`);
 });

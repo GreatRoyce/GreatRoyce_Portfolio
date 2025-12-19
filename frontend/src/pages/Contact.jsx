@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { ThemeContext } from "../pages/ParentPage";
 import {
@@ -14,6 +14,17 @@ import Formspree from "../components/Formspree";
 
 function Contact() {
   const { isDarkMode } = useContext(ThemeContext);
+  const [hoveredSocial, setHoveredSocial] = useState(null);
+
+  // Brand color variations (same as Projects component)
+  const brandColors = {
+    primary: "#cc4e00",         // Main brand color
+    light: "#ff6f2a",           // Lighter variation
+    dark: "#a33c00",            // Darker variation
+    muted: "#ff8f4d",           // Muted for backgrounds
+    subtle: "#ffb385",          // Very light for subtle accents
+    deep: "#8c2d00",            // Deep dark for borders/text
+  };
 
   const handlePhoneClick = () => {
     window.location.href = "tel:+2347066070465";
@@ -35,25 +46,21 @@ function Contact() {
       icon: FaGithub,
       href: "https://github.com/GreatRoyce",
       label: "GitHub",
-      color: "hover:text-gray-700 dark:hover:text-white",
     },
     {
       icon: FaLinkedin,
       href: "https://www.linkedin.com/in/chukwudi-okoh/",
       label: "LinkedIn",
-      color: "hover:text-blue-600 dark:hover:text-blue-400",
     },
     {
       icon: FaTwitter,
       href: "https://x.com/iAmGreatRoyce",
       label: "Twitter",
-      color: "hover:text-blue-400 dark:hover:text-blue-300",
     },
     {
       icon: FaWhatsapp,
       href: "https://wa.me/2347066070465",
       label: "WhatsApp",
-      color: "hover:text-green-600 dark:hover:text-green-400",
       onClick: handleWhatsAppClick,
     },
   ];
@@ -117,7 +124,7 @@ function Contact() {
               Fill out the form below and I'll respond promptly.
             </p>
 
-            {/* Formspree Component */}
+            {/* Formspree Component - You'll need to update this component to use brand colors too */}
             <Formspree
               formId="mjknrebn"
               compact={false}
@@ -132,6 +139,7 @@ function Contact() {
               buttonSubmittingText="Sending..."
               buttonSuccessText="Message Sent!"
               className="mt-2"
+              // Pass brand colors to Formspree if it accepts custom styling
             />
           </motion.div>
 
@@ -161,25 +169,27 @@ function Contact() {
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
-                    isDarkMode
-                      ? "bg-blue-900/30 group-hover:bg-blue-800/50"
-                      : "bg-blue-100 group-hover:bg-blue-200"
-                  }`}
+                  className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                  style={{
+                    backgroundColor: isDarkMode 
+                      ? `${brandColors.muted}30`  // 30 = 0.2 opacity in hex
+                      : `${brandColors.subtle}`
+                  }}
                 >
                   <FaMapMarkerAlt
-                    className={`w-5 h-5 transition-colors duration-300 ${
-                      isDarkMode
-                        ? "text-blue-400 group-hover:text-blue-300"
-                        : "text-blue-600 group-hover:text-blue-700"
-                    }`}
+                    className="w-5 h-5 transition-colors duration-300"
+                    style={{
+                      color: isDarkMode 
+                        ? brandColors.light
+                        : brandColors.primary
+                    }}
                   />
                 </div>
                 <div>
                   <h6
-                    className={`font-semibold mb-1 transition-colors duration-300 group-hover:text-[#57aee8] ${
+                    className={`font-semibold mb-1 transition-colors duration-300 ${
                       isDarkMode ? "text-white" : "text-gray-800"
-                    }`}
+                    } group-hover:text-[${brandColors.primary}]`}
                   >
                     Location
                   </h6>
@@ -209,43 +219,43 @@ function Contact() {
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
-                    isDarkMode
-                      ? "bg-green-900/30 group-hover:bg-green-800/50"
-                      : "bg-green-100 group-hover:bg-green-200"
-                  }`}
+                  className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                  style={{
+                    backgroundColor: isDarkMode 
+                      ? `${brandColors.muted}30`
+                      : `${brandColors.subtle}`
+                  }}
                 >
                   <FaPhone
-                    className={`w-5 h-5 transition-colors duration-300 ${
-                      isDarkMode
-                        ? "text-green-400 group-hover:text-green-300"
-                        : "text-green-600 group-hover:text-green-700"
-                    }`}
+                    className="w-5 h-5 transition-colors duration-300"
+                    style={{
+                      color: isDarkMode 
+                        ? brandColors.light
+                        : brandColors.primary
+                    }}
                   />
                 </div>
                 <div>
                   <h6
-                    className={`font-semibold mb-1 transition-colors duration-300 group-hover:text-[#57aee8] ${
+                    className={`font-semibold mb-1 transition-colors duration-300 ${
                       isDarkMode ? "text-white" : "text-gray-800"
-                    }`}
+                    } group-hover:text-[${brandColors.primary}]`}
                   >
                     Phone
                   </h6>
                   <p
-                    className={`transition-colors duration-300 group-hover:text-[#57aee8] font-medium ${
+                    className={`transition-colors duration-300 font-medium ${
                       isDarkMode ? "text-gray-300" : "text-gray-600"
-                    }`}
+                    } group-hover:text-[${brandColors.primary}]`}
                   >
                     +234 706 607 0465
                   </p>
                   <p
                     className={`text-sm mt-1 transition-colors duration-300 ${
                       isDarkMode ? "text-gray-400" : "text-gray-500"
-                    }`}
+                    } group-hover:text-[${brandColors.light}]`}
                   >
-                    <span className="group-hover:text-[#57aee8] transition-colors duration-300">
-                      Click to call • Available 9AM - 6PM WAT
-                    </span>
+                    Click to call • Available 9AM - 6PM WAT
                   </p>
                 </div>
               </motion.a>
@@ -257,34 +267,39 @@ function Contact() {
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
-                    isDarkMode
-                      ? "bg-purple-900/30 group-hover:bg-purple-800/50"
-                      : "bg-purple-100 group-hover:bg-purple-200"
-                  }`}
+                  className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                  style={{
+                    backgroundColor: isDarkMode 
+                      ? `${brandColors.muted}30`
+                      : `${brandColors.subtle}`
+                  }}
                 >
                   <FaEnvelope
-                    className={`w-5 h-5 transition-colors duration-300 ${
-                      isDarkMode
-                        ? "text-purple-400 group-hover:text-purple-300"
-                        : "text-purple-600 group-hover:text-purple-700"
-                    }`}
+                    className="w-5 h-5 transition-colors duration-300"
+                    style={{
+                      color: isDarkMode 
+                        ? brandColors.light
+                        : brandColors.primary
+                    }}
                   />
                 </div>
                 <div className="space-y-1">
                   <h6
-                    className={`font-semibold transition-colors duration-300 group-hover:text-[#57aee8] ${
+                    className={`font-semibold transition-colors duration-300 ${
                       isDarkMode ? "text-white" : "text-gray-800"
-                    }`}
+                    } group-hover:text-[${brandColors.primary}]`}
                   >
                     Email
                   </h6>
                   <div className="space-y-1">
                     <a
                       href="mailto:royceokoh@gmail.com"
-                      className={`transition-colors duration-200 block hover:text-[#57aee8] font-medium ${
+                      className={`transition-colors duration-200 block font-medium hover:text-[${brandColors.primary}] ${
                         isDarkMode ? "text-gray-300" : "text-gray-600"
                       }`}
+                      style={{
+                        color: isDarkMode ? "#d1d5db" : "#4b5563"
+                      }}
                     >
                       royceokoh@gmail.com
                     </a>
@@ -294,7 +309,7 @@ function Contact() {
                       isDarkMode ? "text-gray-400" : "text-gray-500"
                     }`}
                   >
-                    I’ll get back to you within 24 hours — usually sooner!
+                    I'll get back to you within 24 hours — usually sooner!
                   </p>
                 </div>
               </motion.div>
@@ -313,11 +328,19 @@ function Contact() {
                 <motion.a
                   href="tel:+2347066070465"
                   onClick={handlePhoneClick}
-                  className={`py-3 px-4 text-center rounded-xl font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2 ${
-                    isDarkMode
-                      ? "bg-green-600 hover:bg-green-500 text-white"
-                      : "bg-green-500 hover:bg-green-600 text-white"
-                  }`}
+                  className="py-3 px-4 text-center rounded-xl font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2 text-white"
+                  style={{ 
+                    backgroundColor: brandColors.primary,
+                    boxShadow: `0 4px 14px 0 ${brandColors.primary}40`
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = brandColors.light;
+                    e.currentTarget.style.boxShadow = `0 6px 20px 0 ${brandColors.primary}60`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = brandColors.primary;
+                    e.currentTarget.style.boxShadow = `0 4px 14px 0 ${brandColors.primary}40`;
+                  }}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -327,11 +350,19 @@ function Contact() {
 
                 <motion.button
                   onClick={handleWhatsAppClick}
-                  className={`py-3 px-4 text-center rounded-xl font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2 ${
-                    isDarkMode
-                      ? "bg-green-600 hover:bg-green-500 text-white"
-                      : "bg-green-500 hover:bg-green-600 text-white"
-                  }`}
+                  className="py-3 px-4 text-center rounded-xl font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2 text-white"
+                  style={{ 
+                    backgroundColor: brandColors.primary,
+                    boxShadow: `0 4px 14px 0 ${brandColors.primary}40`
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = brandColors.light;
+                    e.currentTarget.style.boxShadow = `0 6px 20px 0 ${brandColors.primary}60`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = brandColors.primary;
+                    e.currentTarget.style.boxShadow = `0 4px 14px 0 ${brandColors.primary}40`;
+                  }}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -360,6 +391,8 @@ function Contact() {
               <div className="flex space-x-4">
                 {socialLinks.map((social) => {
                   const IconComponent = social.icon;
+                  const isHovered = hoveredSocial === social.label;
+                  
                   return (
                     <motion.button
                       key={social.label}
@@ -373,15 +406,21 @@ function Contact() {
                                 "noopener,noreferrer"
                               )
                       }
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110 ${
-                        isDarkMode
-                          ? "bg-gray-700 text-gray-300 hover:bg-[#57aee8] hover:text-white"
-                          : "bg-gray-100 text-gray-600 hover:bg-[#57aee8] hover:text-white"
-                      } ${social.color}`}
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110`}
+                      style={{
+                        backgroundColor: isHovered
+                          ? brandColors.primary
+                          : (isDarkMode ? "#374151" : "#f3f4f6"),
+                        color: isHovered
+                          ? "white"
+                          : (isDarkMode ? brandColors.subtle : brandColors.primary)
+                      }}
                       whileHover={{ y: -3 }}
                       whileTap={{ scale: 0.95 }}
                       aria-label={social.label}
                       title={social.label}
+                      onMouseEnter={() => setHoveredSocial(social.label)}
+                      onMouseLeave={() => setHoveredSocial(null)}
                     >
                       <IconComponent className="w-5 h-5" />
                     </motion.button>
@@ -390,13 +429,78 @@ function Contact() {
               </div>
             </div>
 
-            {/* Privacy Note */}
+            {/* Brand Color Decorative Element */}
             <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-             
+              <div className="flex items-center justify-center gap-2">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-2 h-2 rounded-full animate-pulse"
+                    style={{
+                      backgroundColor: brandColors.primary,
+                      animationDelay: `${i * 200}ms`
+                    }}
+                  ></div>
+                ))}
+              </div>
             </div>
           </motion.div>
         </div>
+
+        {/* Section Footer */}
+        <motion.div
+          className="mt-16 mb-8 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <p
+            className={`text-sm ${
+              isDarkMode ? "text-gray-400" : "text-gray-600"
+            }`}
+          >
+            Ready to bring your ideas to life? Let's create something amazing together.
+          </p>
+          <div className="mt-4 inline-flex items-center justify-center gap-3">
+            <div 
+              className="w-3 h-3 rounded-full animate-brand-pulse"
+              style={{ backgroundColor: brandColors.primary }}
+            ></div>
+            <div 
+              className="w-2 h-2 rounded-full animate-brand-pulse"
+              style={{ 
+                backgroundColor: brandColors.light,
+                animationDelay: '300ms'
+              }}
+            ></div>
+            <div 
+              className="w-2 h-2 rounded-full animate-brand-pulse"
+              style={{ 
+                backgroundColor: brandColors.muted,
+                animationDelay: '600ms'
+              }}
+            ></div>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Add custom CSS for brand animations */}
+      <style jsx>{`
+        @keyframes brand-pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(0.9); }
+        }
+        
+        .animate-brand-pulse {
+          animation: brand-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        /* Custom hover styles for email links */
+        a:hover {
+          color: ${brandColors.primary} !important;
+        }
+      `}</style>
     </section>
   );
 }

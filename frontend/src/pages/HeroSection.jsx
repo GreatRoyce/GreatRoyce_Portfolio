@@ -209,8 +209,8 @@ function HeroSection() {
                   variant="primary"
                   className={`w-full sm:w-auto min-w-[140px] text-center ${
                     isDarkMode
-                      ? "bg-gray-800 text-[#cc4e00] border border-gray-600 hover:bg-gray-700 hover:border-gray-500"
-                      : "bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 hover:border-white/50"
+                      ? "bg-gray-800 text-blue-500 border border-gray-600 hover:bg-gray-700 hover:border-gray-500"
+                      : "bg-black/20 backdrop-blur-md text-[#cc4e00] border border-white/30 hover:bg-white/30 hover:border-white/50"
                   } hover:scale-105 transform transition-all duration-300 shadow-lg hover:shadow-xl font-semibold`}
                   size="large"
                   onClick={handleHireClick}
@@ -225,7 +225,7 @@ function HeroSection() {
                   className={`w-full sm:w-auto min-w-[140px] text-center ${
                     isDarkMode
                       ? "border-2 border-gray-400 text-gray-200 hover:bg-gray-400 hover:text-gray-800 backdrop-blur-sm"
-                      : "border-2 border-white text-white hover:bg-white hover:text-[#57aee8] backdrop-blur-sm"
+                      : "border-2 border-white text-white hover:bg-white hover:text-[#cc4e00] backdrop-blur-sm"
                   } hover:scale-105 transform transition-all duration-300 font-semibold`}
                   size="large"
                  

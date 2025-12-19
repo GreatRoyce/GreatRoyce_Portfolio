@@ -10,9 +10,9 @@ function Dashboard() {
       <div className="flex-1 flex flex-col">
         <Navbar />
         <div className="p-6">
-          <h2 className="text-3xl font-bold mb-4">Welcome, Admin!</h2>
+          <h2 className="text-3xl font-bold mb-4">Welcome, GreatRoyce!</h2>
           <p className="text-gray-700">
-            Use the sidebar to manage projects, view contacts, or upload CV.
+           
           </p>
         </div>
       </div>
