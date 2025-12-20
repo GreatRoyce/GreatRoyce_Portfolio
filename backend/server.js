@@ -31,26 +31,28 @@ const allowedOrigins = [
 // =======================
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow server-to-server, Postman, curl
-      if (!origin) return callback(null, true);
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow server-to-server, Postman, curl
+    if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
+    // Allow specific origins OR any Vercel subdomain (previews/www)
+    if (allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+      return callback(null, true);
+    }
 
-      return callback(new Error("❌ Not allowed by CORS"));
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+    console.error(`❌ CORS Blocked: ${origin}`);
+    return callback(new Error("❌ Not allowed by CORS"));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 
 // 🔑 REQUIRED for preflight requests
-app.options("*", cors());
+app.options("*", cors(corsOptions));
 
 app.use(morgan("dev"));
 
@@ -87,9 +89,7 @@ app.get("/api/v1", (req, res) => {
 // Swagger Setup (Render-safe)
 // =======================
 try {
-  const swaggerDocument = YAML.load(
-    path.join(__dirname, "apidoc/apidoc.yaml")
-  );
+  const swaggerDocument = YAML.load(path.join(__dirname, "apidoc/apidoc.yaml"));
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 } catch (error) {
   console.warn("⚠️ Swagger not loaded:", error.message);
