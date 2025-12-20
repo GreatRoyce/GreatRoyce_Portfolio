@@ -34,7 +34,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      process.env.FRONTEND_URL, // ✅ Vercel URL
+      process.env.FRONTEND_URL ||
+      "https://greatroyce-portfolio.vercel.app/" // ✅ Vercel URL
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
