@@ -1,112 +1,29 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const morgan = require("morgan");
-const path = require("path");
-const connectDB = require("./database/dbConnection");
-const swaggerUi = require("swagger-ui-express");
-const YAML = require("yamljs");
-
-// =======================
-// Routes
-// =======================
-const projectRoutes = require("./src/routes/project.routes");
-const contactRoutes = require("./src/routes/contact.routes");
-const adminRoutes = require("./src/routes/admin.routes");
-const adminDataRoutes = require("./src/routes/adminData.routes");
-const mailRoutes = require("./src/routes/mail.routes");
-
-// =======================
-// Env Variables
-// =======================
-dotenv.config();
-
-// =======================
-// Initialize Express
-// =======================
-const app = express();
-
-// =======================
-// Middlewares
-// =======================
-app.use(express.json());
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      process.env.FRONTEND_URL, // ✅ Vercel URL
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
-  })
-);
-app.use(morgan("dev"));
-
-// =======================
-// Static Files
-// =======================
-app.use(express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// =======================
-// Database Connection
-// =======================
-connectDB();
-
-// =======================
-// Root Route (FIXES Cannot GET /)
-// =======================
-app.get("/", (req, res) => {
-  res.status(200).json({
-    status: "success",
-    message: "🚀 Backend API is running",
-    docs: "/api-docs",
-  });
-});
-
-// =======================
-// Health Check
-// =======================
-app.get("/api/v1", (req, res) => {
-  res.status(200).send("✅ API is live and ready!");
-});
-
-// =======================
-// Swagger Setup (SAFE FOR RENDER)
-// =======================
-try {
-  const swaggerDocument = YAML.load(
-    path.join(__dirname, "apidoc/apidoc.yaml")
-  );
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-} catch (error) {
-  console.warn("⚠️ Swagger not loaded:", error.message);
+{
+  "name": "portfolio-backend",
+  "version": "1.0.0",
+  "description": "Backend API for portfolio project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Great Royce",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^8.2.1",
+    "joi": "^18.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.5.0",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.2",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
 }
-
-// =======================
-// Routes
-// =======================
-app.use("/api/v1/projects", projectRoutes);
-app.use("/api/v1/contacts", contactRoutes);
-app.use("/api/v1/admin", adminRoutes);
-app.use("/api/v1/admin/data", adminDataRoutes);
-app.use("/api/v1/mail", mailRoutes);
-
-// =======================
-// Error Handling Middleware
-// =======================
-app.use((err, req, res, next) => {
-  console.error("❌ Error:", err.message);
-  res.status(500).json({
-    success: false,
-    message: err.message,
-  });
-});
-
-// =======================
-// Start Server (Render SAFE)
-// =======================
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
-});
