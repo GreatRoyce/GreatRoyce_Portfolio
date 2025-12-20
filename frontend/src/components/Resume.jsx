@@ -4,12 +4,9 @@ function Resume() {
   return (
     <main className="bg-gray-100 text-gray-900 antialiased min-h-screen py-10">
       <section className="max-w-4xl mx-auto bg-white shadow-lg p-8 md:p-12">
-
         {/* Header */}
         <header className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">
-            Chukwudi Okoh
-          </h1>
+          <h1 className="text-3xl font-bold tracking-tight">Chukwudi Okoh</h1>
           <p className="text-gray-600 mt-1">
             Junior Full-Stack Developer (MERN)
           </p>
@@ -19,10 +16,7 @@ function Resume() {
             <span>•</span>
             <span>Open to Remote & Internship Roles</span>
             <span>•</span>
-            <a
-              href="mailto:royceokoh@gmail.com"
-              className="hover:underline"
-            >
+            <a href="mailto:royceokoh@gmail.com" className="hover:underline">
               royceokoh@gmail.com
             </a>
           </div>
@@ -30,14 +24,12 @@ function Resume() {
 
         {/* Profile */}
         <section className="mb-8">
-          <h2 className="text-xl font-semibold border-b pb-1 mb-3">
-            Profile
-          </h2>
+          <h2 className="text-xl font-semibold border-b pb-1 mb-3">Profile</h2>
           <p className="text-sm text-gray-800 leading-relaxed">
             Certified junior full-stack developer with hands-on experience
-            building MERN-stack applications. Strong focus on clean UI,
-            RESTful APIs, and NoSQL databases. Seeking junior or internship
-            roles to contribute to production-level projects.
+            building MERN-stack applications. Strong focus on clean UI, RESTful
+            APIs, and NoSQL databases. Seeking junior or internship roles to
+            contribute to production-level projects.
           </p>
         </section>
 
@@ -62,9 +54,7 @@ function Resume() {
 
         {/* Projects */}
         <section className="mb-8">
-          <h2 className="text-xl font-semibold border-b pb-1 mb-3">
-            Projects
-          </h2>
+          <h2 className="text-xl font-semibold border-b pb-1 mb-3">Projects</h2>
 
           <ul className="list-disc ml-5 text-sm text-gray-800 space-y-3">
             <li>
@@ -120,28 +110,28 @@ function Resume() {
               <h3 className="font-semibold">
                 Media Producer & Broadcaster — Studio, News & Freelance
               </h3>
-              <span className="text-gray-600">2021–2024</span>
+              <span className="text-gray-600">2022–2024</span>
             </div>
 
             <div className="flex justify-between">
               <h3 className="font-semibold">
                 Creative Director & Studio Manager — Freiheit Communications
               </h3>
-              <span className="text-gray-600">2018–2021</span>
+              <span className="text-gray-600">2019–2022</span>
             </div>
 
             <div className="flex justify-between">
               <h3 className="font-semibold">
                 Music Producer — Studio & Freelance
               </h3>
-              <span className="text-gray-600">2015–2018</span>
+              <span className="text-gray-600">2017–2019</span>
             </div>
 
             <div className="flex justify-between">
               <h3 className="font-semibold">
                 Production Operator — May & Baker
               </h3>
-              <span className="text-gray-600">2012–2015</span>
+              <span className="text-gray-600">2015–2017</span>
             </div>
           </div>
         </section>
@@ -154,13 +144,12 @@ function Resume() {
 
           <ul className="text-sm text-gray-800 space-y-2">
             <li>
-              <strong>Certified Full-Stack Developer</strong> — ITSkills Center (2024)
+              <strong>Certified Full-Stack Developer</strong> — ITSkills Center
+              (2024)
             </li>
+            <li>Android App Development (Java)</li>
             <li>
-              Android App Development (Java) — Chrisgate (2024)
-            </li>
-            <li>
-              Diploma in Mechanical Engineering — Yaba College of Technology (2012)
+              Diploma in Mechanical Engineering — Yaba College of Technology
             </li>
           </ul>
         </section>
@@ -177,9 +166,7 @@ function Resume() {
 
         {/* Footer */}
         <section className="no-print flex justify-between items-center mt-10">
-          <p className="text-sm text-gray-500">
-            Last updated: 2025
-          </p>
+          <p className="text-sm text-gray-500">Last updated: 2025</p>
           <button
             onClick={() => window.print()}
             className="px-4 py-2 bg-gray-900 text-white text-sm rounded hover:bg-gray-800"
@@ -187,7 +174,6 @@ function Resume() {
             Download PDF
           </button>
         </section>
-
       </section>
     </main>
   );
