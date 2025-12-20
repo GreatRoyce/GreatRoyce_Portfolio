@@ -8,16 +8,7 @@ const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 
 // =======================
-// Routes
-// =======================
-const projectRoutes = require("./src/routes/project.routes");
-const contactRoutes = require("./src/routes/contact.routes");
-const adminRoutes = require("./src/routes/admin.routes");
-const adminDataRoutes = require("./src/routes/adminData.routes");
-const mailRoutes = require("./src/routes/mail.routes");
-
-// =======================
-// Env Variables
+// Load Env Variables
 // =======================
 dotenv.config();
 
@@ -25,22 +16,42 @@ dotenv.config();
 // Initialize Express
 // =======================
 const app = express();
+app.set("etag", false);
+
+// =======================
+// Allowed Origins (CORS)
+// =======================
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://greatroyce-portfolio.vercel.app",
+];
 
 // =======================
 // Middlewares
 // =======================
 app.use(express.json());
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      process.env.FRONTEND_URL ||
-      "https://greatroyce-portfolio.vercel.app/" // ✅ Vercel URL
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    origin: (origin, callback) => {
+      // Allow server-to-server, Postman, curl
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("❌ Not allowed by CORS"));
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+// 🔑 REQUIRED for preflight requests
+app.options("*", cors());
+
 app.use(morgan("dev"));
 
 // =======================
@@ -55,7 +66,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 connectDB();
 
 // =======================
-// Root Route (FIXES Cannot GET /)
+// Root Route
 // =======================
 app.get("/", (req, res) => {
   res.status(200).json({
@@ -73,7 +84,7 @@ app.get("/api/v1", (req, res) => {
 });
 
 // =======================
-// Swagger Setup (SAFE FOR RENDER)
+// Swagger Setup (Render-safe)
 // =======================
 try {
   const swaggerDocument = YAML.load(
@@ -87,25 +98,26 @@ try {
 // =======================
 // Routes
 // =======================
-app.use("/api/v1/projects", projectRoutes);
-app.use("/api/v1/contacts", contactRoutes);
-app.use("/api/v1/admin", adminRoutes);
-app.use("/api/v1/admin/data", adminDataRoutes);
-app.use("/api/v1/mail", mailRoutes);
+app.use("/api/v1/projects", require("./src/routes/project.routes"));
+app.use("/api/v1/contacts", require("./src/routes/contact.routes"));
+app.use("/api/v1/admin", require("./src/routes/admin.routes"));
+app.use("/api/v1/admin/data", require("./src/routes/adminData.routes"));
+app.use("/api/v1/mail", require("./src/routes/mail.routes"));
 
 // =======================
 // Error Handling Middleware
 // =======================
 app.use((err, req, res, next) => {
   console.error("❌ Error:", err.message);
-  res.status(500).json({
+
+  res.status(err.statusCode || 500).json({
     success: false,
-    message: err.message,
+    message: err.message || "Internal Server Error",
   });
 });
 
 // =======================
-// Start Server (Render SAFE)
+// Start Server (Render-safe)
 // =======================
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

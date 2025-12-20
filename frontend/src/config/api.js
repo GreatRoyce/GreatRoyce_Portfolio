@@ -3,7 +3,7 @@
 // Automatically select API base URL depending on environment
 const BASE_URL =
   import.meta.env.MODE === "development"
-    ? import.meta.env.VITE_LOCAL_API_URL || "http://localhost:3001/api/v1"
+    ? import.meta.env.VITE_LOCAL_API_URL || "http://localhost:3000/api/v1"
     : import.meta.env.VITE_API_URL || "https://greatroyce-portfolio.onrender.com/api/v1";
 
 export const API_ENDPOINTS = {
