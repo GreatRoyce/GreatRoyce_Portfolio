@@ -32,14 +32,19 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      process.env.FRONTEND_URL, // ✅ Vercel URL
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
 app.use(morgan("dev"));
 
-// Serve static files
+// =======================
+// Static Files
+// =======================
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -49,30 +54,42 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 connectDB();
 
 // =======================
-// Swagger Setup
+// Root Route (FIXES Cannot GET /)
 // =======================
-const swaggerDocument = YAML.load(path.join(__dirname, "/apidoc/apidoc.yaml"));
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "🚀 Backend API is running",
+    docs: "/api-docs",
+  });
+});
+
+// =======================
+// Health Check
+// =======================
+app.get("/api/v1", (req, res) => {
+  res.status(200).send("✅ API is live and ready!");
+});
+
+// =======================
+// Swagger Setup (SAFE FOR RENDER)
+// =======================
+try {
+  const swaggerDocument = YAML.load(
+    path.join(__dirname, "apidoc/apidoc.yaml")
+  );
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+} catch (error) {
+  console.warn("⚠️ Swagger not loaded:", error.message);
+}
 
 // =======================
 // Routes
 // =======================
-
-// Health check
-app.get("/api/v1", (req, res) => {
-  res.send("✅ API is live and ready!");
-});
-
-// Public routes
 app.use("/api/v1/projects", projectRoutes);
 app.use("/api/v1/contacts", contactRoutes);
-
-// Admin login
 app.use("/api/v1/admin", adminRoutes);
-
-// Protected admin routes
 app.use("/api/v1/admin/data", adminDataRoutes);
-
 app.use("/api/v1/mail", mailRoutes);
 
 // =======================
@@ -80,14 +97,16 @@ app.use("/api/v1/mail", mailRoutes);
 // =======================
 app.use((err, req, res, next) => {
   console.error("❌ Error:", err.message);
-  res.status(500).json({ success: false, message: err.message });
+  res.status(500).json({
+    success: false,
+    message: err.message,
+  });
 });
 
 // =======================
-// Start Server
+// Start Server (Render SAFE)
 // =======================
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ Server running at: http://localhost:${PORT}`);
-  console.log(`📖 Swagger docs available at: http://localhost:${PORT}/api-docs`);
+  console.log(`✅ Server running on port ${PORT}`);
 });

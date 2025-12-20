@@ -22,7 +22,7 @@ const seedAdmin = async () => {
       process.exit(1);
     }
 
-    // Check if admin already exists
+    // Check if admiN exists
     const existingAdmin = await Admin.findOne({ email: adminEmail });
     if (existingAdmin) {
       console.log("⚠️ Admin already exists");
@@ -32,7 +32,7 @@ const seedAdmin = async () => {
     // Create new admin
     const admin = new Admin({
       email: adminEmail,
-      password: adminPassword, // will be hashed automatically
+      password: adminPassword, // hashed automatically
     });
 
     await admin.save();
