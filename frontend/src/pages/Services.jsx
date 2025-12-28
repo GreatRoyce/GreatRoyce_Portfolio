@@ -136,7 +136,7 @@ function Services() {
               </h5>
               <p
                 className={`text-sm font-thin leading-relaxed transition-colors duration-300 ${
-                  isDarkMode ? "text-gray-300" : "text-[#cc4e00]"
+                  isDarkMode ? "text-gray-200" : "text-[#cc4e00]"
                 }`}
               >
                 {item.desc}
