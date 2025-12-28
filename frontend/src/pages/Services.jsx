@@ -7,7 +7,6 @@ import react from "../assets/react.svg";
 import tw from "../assets/tw.png";
 import { motion } from "framer-motion";
 import { ThemeContext } from "../pages/ParentPage";
-import tri from "../assets/tri.jpg"
 
 const servicesCards = [
   {
@@ -89,7 +88,6 @@ function Services() {
         >
           {servicesCards.map((item) => (
             <motion.div
-            style={{backgroundImage: `url(${tri})`}}
               key={item.id}
               variants={{
                 hidden: { opacity: 0, y: 30 },
