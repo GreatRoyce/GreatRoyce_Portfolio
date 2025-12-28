@@ -1,7 +1,6 @@
 import React, { useContext, useCallback } from "react";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
-import net from "../assets/cardbg.png";
 import { ThemeContext } from "../pages/ParentPage";
 
 function Footer() {
@@ -121,7 +120,7 @@ function Footer() {
     >
       {/* CTA Section with Brand Overlay */}
       <div
-        style={{ backgroundImage: `url(${net})` }}
+       
         className="relative bg-cover bg-no-repeat bg-center py-12 lg:py-16"
       >
         {/* Brand Color Overlay */}

@@ -127,14 +127,14 @@ function Services() {
                 className={`font-bold text-md w-3/4 mx-auto mb-4 transition-colors duration-300 ${
                   isDarkMode
                     ? "text-[#cc4e00] group-hover:text-[#57aee8]"
-                    : "text-gray-300 group-hover:text-[#57aee8]"
+                    : "text-gray-700 group-hover:text-[#57aee8]"
                 }`}
               >
                 {item.title}
               </h5>
               <p
-                className={`text-sm font-thin leading-relaxed transition-colors duration-300 ${
-                  isDarkMode ? "text-gray-200" : "text-[#cc4e00]"
+                className={`text-sm font-normal leading-relaxed transition-colors duration-300 ${
+                  isDarkMode ? "text-gray-300" : "text-[#cc4e00]"
                 }`}
               >
                 {item.desc}
