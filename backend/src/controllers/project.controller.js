@@ -15,13 +15,12 @@ const createProject = async (req, res) => {
       dateCompleted,
     } = req.body;
 
-    const image = req.files?.image
-      ? `/uploads/images/${req.files.image[0].filename}`
-      : null;
-
-    const video = req.files?.video
-      ? `/uploads/videos/${req.files.video[0].filename}`
-      : null;
+    // Cloudinary URLs
+    const image = req.file?.path || null;
+    const video =
+      req.file?.path && req.file.mimetype.startsWith("video")
+        ? req.file.path
+        : null;
 
     const newProject = new Project({
       title,
@@ -30,7 +29,10 @@ const createProject = async (req, res) => {
       image,
       video,
       technologies: technologies
-        ? technologies.split(",").map((t) => t.trim()).filter(Boolean)
+        ? technologies
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean)
         : [],
       githubLink,
       liveDemo,
@@ -113,12 +115,12 @@ const updateProject = async (req, res) => {
   try {
     const updates = { ...req.body };
 
-    if (req.files?.image) {
-      updates.image = `/uploads/images/${req.files.image[0].filename}`;
-    }
-
-    if (req.files?.video) {
-      updates.video = `/uploads/videos/${req.files.video[0].filename}`;
+    if (req.file) {
+      if (req.file.mimetype.startsWith("image")) {
+        updates.image = req.file.path;
+      } else if (req.file.mimetype.startsWith("video")) {
+        updates.video = req.file.path;
+      }
     }
 
     if (updates.technologies) {
