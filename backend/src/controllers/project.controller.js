@@ -1,22 +1,50 @@
 const Project = require("../models/project.model");
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
 
 /* ===========================
    📥 CREATE PROJECT
 =========================== */
 const createProject = async (req, res) => {
   try {
-    const { title, description, category, technologies, githubLink, liveDemo, dateCompleted } = req.body;
+    const {
+      title,
+      description,
+      category,
+      technologies,
+      githubLink,
+      liveDemo,
+      dateCompleted,
+    } = req.body;
 
-    // req.file comes from multer-storage-cloudinary, already a Cloudinary URL
-    const image = req.file ? req.file.path : null;
+    let image = null;
+    let video = null;
+
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        resource_type: "auto",
+      });
+      // Remove the local file after upload
+      fs.unlinkSync(req.file.path);
+
+      if (req.file.mimetype.startsWith("video")) {
+        video = result.secure_url;
+      } else {
+        image = result.secure_url;
+      }
+    }
 
     const newProject = await Project.create({
       title,
       description,
       category,
       image,
+      video,
       technologies: technologies
-        ? technologies.split(",").map((t) => t.trim()).filter(Boolean)
+        ? technologies
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean)
         : [],
       githubLink,
       liveDemo,
@@ -45,7 +73,8 @@ const getProjects = async (req, res) => {
       title: p.title,
       description: p.description,
       category: p.category,
-      image: p.image || null,
+      images: p.image ? [p.image] : [],
+      video: p.video,
       technologies: p.technologies,
       githubUrl: p.githubLink,
       demoUrl: p.liveDemo,
@@ -74,7 +103,8 @@ const getProjectById = async (req, res) => {
       title: p.title,
       description: p.description,
       category: p.category,
-      image: p.image || null,
+      images: p.image ? [p.image] : [],
+      video: p.video,
       technologies: p.technologies,
       githubUrl: p.githubLink,
       demoUrl: p.liveDemo,
@@ -95,9 +125,17 @@ const updateProject = async (req, res) => {
   try {
     const updates = { ...req.body };
 
-    // Replace image if a new one is uploaded
     if (req.file) {
-      updates.image = req.file.path;
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        resource_type: "auto",
+      });
+      fs.unlinkSync(req.file.path);
+
+      if (req.file.mimetype.startsWith("video")) {
+        updates.video = result.secure_url;
+      } else {
+        updates.image = result.secure_url;
+      }
     }
 
     if (updates.technologies) {
@@ -107,7 +145,11 @@ const updateProject = async (req, res) => {
         .filter(Boolean);
     }
 
-    const updatedProject = await Project.findByIdAndUpdate(req.params.id, updates, { new: true });
+    const updatedProject = await Project.findByIdAndUpdate(
+      req.params.id,
+      updates,
+      { new: true }
+    );
 
     if (!updatedProject) {
       return res.status(404).json({ error: "Project not found" });
