@@ -5,15 +5,7 @@ const Project = require("../models/project.model");
 =========================== */
 const createProject = async (req, res) => {
   try {
-    const {
-      title,
-      description,
-      category,
-      technologies,
-      githubLink,
-      liveDemo,
-      dateCompleted,
-    } = req.body;
+    const { title, description, category, technologies, githubLink, liveDemo, dateCompleted } = req.body;
 
     // req.file comes from multer-storage-cloudinary, already a Cloudinary URL
     const image = req.file ? req.file.path : null;
@@ -24,10 +16,7 @@ const createProject = async (req, res) => {
       category,
       image,
       technologies: technologies
-        ? technologies
-            .split(",")
-            .map((t) => t.trim())
-            .filter(Boolean)
+        ? technologies.split(",").map((t) => t.trim()).filter(Boolean)
         : [],
       githubLink,
       liveDemo,
@@ -118,11 +107,7 @@ const updateProject = async (req, res) => {
         .filter(Boolean);
     }
 
-    const updatedProject = await Project.findByIdAndUpdate(
-      req.params.id,
-      updates,
-      { new: true }
-    );
+    const updatedProject = await Project.findByIdAndUpdate(req.params.id, updates, { new: true });
 
     if (!updatedProject) {
       return res.status(404).json({ error: "Project not found" });
