@@ -26,21 +26,12 @@ const allowedOrigins = [
   "https://greatroyce-portfolio.vercel.app",
 ];
 
-// =======================
-// Middlewares
-// =======================
-app.use(express.json());
-
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow server-to-server, Postman, curl
     if (!origin) return callback(null, true);
-
-    // Allow specific origins OR any Vercel subdomain (previews/www)
     if (allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
       return callback(null, true);
     }
-
     console.error(`❌ CORS Blocked: ${origin}`);
     return callback(new Error("❌ Not allowed by CORS"));
   },
@@ -49,18 +40,20 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
+// Enable CORS
 app.use(cors(corsOptions));
-
-// 🔑 REQUIRED for preflight requests
 app.options("*", cors(corsOptions));
 
+// =======================
+// Middlewares
+// =======================
+app.use(express.json());
 app.use(morgan("dev"));
 
 // =======================
-// Static Files
+// Static Files (keep only public assets)
 // =======================
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // =======================
 // Database Connection
@@ -86,7 +79,7 @@ app.get("/api/v1", (req, res) => {
 });
 
 // =======================
-// Swagger Setup (Render-safe)
+// Swagger Setup
 // =======================
 try {
   const swaggerDocument = YAML.load(path.join(__dirname, "apidoc/apidoc.yaml"));
@@ -117,7 +110,7 @@ app.use((err, req, res, next) => {
 });
 
 // =======================
-// Start Server (Render-safe)
+// Start Server
 // =======================
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -1,6 +1,4 @@
 const Project = require("../models/project.model");
-const cloudinary = require("cloudinary").v2;
-const fs = require("fs");
 
 /* ===========================
    📥 CREATE PROJECT
@@ -17,29 +15,14 @@ const createProject = async (req, res) => {
       dateCompleted,
     } = req.body;
 
-    let image = null;
-    let video = null;
-
-    if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path, {
-        resource_type: "auto",
-      });
-      // Remove the local file after upload
-      fs.unlinkSync(req.file.path);
-
-      if (req.file.mimetype.startsWith("video")) {
-        video = result.secure_url;
-      } else {
-        image = result.secure_url;
-      }
-    }
+    // req.file comes from multer-storage-cloudinary, already a Cloudinary URL
+    const image = req.file ? req.file.path : null;
 
     const newProject = await Project.create({
       title,
       description,
       category,
       image,
-      video,
       technologies: technologies
         ? technologies
             .split(",")
@@ -73,8 +56,7 @@ const getProjects = async (req, res) => {
       title: p.title,
       description: p.description,
       category: p.category,
-      images: p.image ? [p.image] : [],
-      video: p.video,
+      image: p.image || null,
       technologies: p.technologies,
       githubUrl: p.githubLink,
       demoUrl: p.liveDemo,
@@ -103,8 +85,7 @@ const getProjectById = async (req, res) => {
       title: p.title,
       description: p.description,
       category: p.category,
-      images: p.image ? [p.image] : [],
-      video: p.video,
+      image: p.image || null,
       technologies: p.technologies,
       githubUrl: p.githubLink,
       demoUrl: p.liveDemo,
@@ -125,17 +106,9 @@ const updateProject = async (req, res) => {
   try {
     const updates = { ...req.body };
 
+    // Replace image if a new one is uploaded
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path, {
-        resource_type: "auto",
-      });
-      fs.unlinkSync(req.file.path);
-
-      if (req.file.mimetype.startsWith("video")) {
-        updates.video = result.secure_url;
-      } else {
-        updates.image = result.secure_url;
-      }
+      updates.image = req.file.path;
     }
 
     if (updates.technologies) {
