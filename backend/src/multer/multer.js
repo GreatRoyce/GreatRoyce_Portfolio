@@ -55,7 +55,6 @@
 
 // module.exports = upload;
 
-
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("../config/cloudinary");
@@ -64,28 +63,20 @@ const cloudinary = require("../config/cloudinary");
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "portfolio-projects",
-    allowed_formats: ["jpg", "jpeg", "png", "webp", "mp4", "mkv"],
-    resource_type: "auto", 
+    folder: "portfolio-projects",     
+    allowed_formats: ["jpg","jpeg","png","webp","mp4","mkv"],
+    resource_type: "auto",           
     public_id: (req, file) => `${Date.now()}-${Math.round(Math.random() * 1e9)}`,
   },
 });
 
-
 const fileFilter = (req, file, cb) => {
   const allowedTypes = [
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-    "video/mp4",
-    "video/mkv",
+    "image/jpeg", "image/png", "image/webp",
+    "video/mp4", "video/mkv"
   ];
-
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only images and videos are allowed!"), false);
-  }
+  if (allowedTypes.includes(file.mimetype)) cb(null, true);
+  else cb(new Error("Only images and videos are allowed!"), false);
 };
 
 const upload = multer({ storage, fileFilter });
