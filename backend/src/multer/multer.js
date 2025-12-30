@@ -60,15 +60,17 @@ const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("../config/cloudinary");
 
-// Storage config
+
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "portfolio-projects", // Cloudinary folder
+    folder: "portfolio-projects",
     allowed_formats: ["jpg", "jpeg", "png", "webp", "mp4", "mkv"],
+    resource_type: "auto", 
     public_id: (req, file) => `${Date.now()}-${Math.round(Math.random() * 1e9)}`,
   },
 });
+
 
 const fileFilter = (req, file, cb) => {
   const allowedTypes = [

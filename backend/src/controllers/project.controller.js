@@ -15,7 +15,6 @@ const createProject = async (req, res) => {
       dateCompleted,
     } = req.body;
 
-    // Use req.file.path directly (CloudinaryStorage)
     const image = req.file && !req.file.mimetype.startsWith("video") ? req.file.path : null;
     const video = req.file && req.file.mimetype.startsWith("video") ? req.file.path : null;
 
@@ -109,9 +108,9 @@ const updateProject = async (req, res) => {
 
     if (req.file) {
       if (req.file.mimetype.startsWith("video")) {
-        updates.video = req.file.path; // Cloudinary URL
+        updates.video = req.file.path;
       } else {
-        updates.image = req.file.path; // Cloudinary URL
+        updates.image = req.file.path;
       }
     }
 
@@ -161,9 +160,6 @@ const deleteProject = async (req, res) => {
   }
 };
 
-/* ===========================
-   EXPORTS
-=========================== */
 module.exports = {
   createProject,
   getProjects,

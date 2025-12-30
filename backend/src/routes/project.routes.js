@@ -1,23 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const protect = require("../middleware/authMiddleware");
-const upload = require("../multer/upload");
+const projectController = require("../controllers/project.controller");
+const upload = require("../middleware/upload");
 
-const {
-  createProject,
-  getProjects,
-  getProjectById,
-  updateProject,
-  deleteProject,
-} = require("../controllers/project.controller");
+// Create a project (image/video)
+router.post("/projects", upload.single("media"), projectController.createProject);
 
-// Public
-router.get("/", getProjects);
-router.get("/:id", getProjectById);
+// Get all projects
+router.get("/projects", projectController.getProjects);
 
-// Admin only
-router.post("/", protect, upload.single("image"), createProject);
-router.put("/:id", protect, upload.single("image"), updateProject);
-router.delete("/:id", protect, deleteProject);
+// Get single project
+router.get("/projects/:id", projectController.getProjectById);
+
+// Update project
+router.put("/projects/:id", upload.single("media"), projectController.updateProject);
+
+// Delete project
+router.delete("/projects/:id", projectController.deleteProject);
 
 module.exports = router;
