@@ -1,4 +1,6 @@
 const Project = require("../models/project.model");
+const cloudinary = require("../../config/cloudinary");
+const fs = require("fs");
 
 /* ===========================
    📥 CREATE PROJECT
@@ -15,14 +17,29 @@ const createProject = async (req, res) => {
       dateCompleted,
     } = req.body;
 
-    // Cloudinary URLs
-    const image = req.file?.path || null;
-    const video =
-      req.file?.path && req.file.mimetype.startsWith("video")
-        ? req.file.path
-        : null;
+    let image = null;
+    let video = null;
 
-    const newProject = new Project({
+    // Upload file to Cloudinary if present
+    if (req.file) {
+      const isVideo = req.file.mimetype.startsWith("video");
+
+      const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+        folder: "portfolio-projects",
+        resource_type: isVideo ? "video" : "image",
+      });
+
+      if (isVideo) {
+        video = uploadResult.secure_url;
+      } else {
+        image = uploadResult.secure_url;
+      }
+
+      // Remove local temp file
+      fs.unlinkSync(req.file.path);
+    }
+
+    const newProject = await Project.create({
       title,
       description,
       category,
@@ -39,11 +56,9 @@ const createProject = async (req, res) => {
       dateCompleted,
     });
 
-    const savedProject = await newProject.save();
-
     res.status(201).json({
       message: "✅ Project created successfully",
-      project: savedProject,
+      project: newProject,
     });
   } catch (err) {
     console.error("❌ Error creating project:", err);
@@ -115,12 +130,22 @@ const updateProject = async (req, res) => {
   try {
     const updates = { ...req.body };
 
+    // Upload new file if present
     if (req.file) {
-      if (req.file.mimetype.startsWith("image")) {
-        updates.image = req.file.path;
-      } else if (req.file.mimetype.startsWith("video")) {
-        updates.video = req.file.path;
+      const isVideo = req.file.mimetype.startsWith("video");
+
+      const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+        folder: "portfolio-projects",
+        resource_type: isVideo ? "video" : "image",
+      });
+
+      if (isVideo) {
+        updates.video = uploadResult.secure_url;
+      } else {
+        updates.image = uploadResult.secure_url;
       }
+
+      fs.unlinkSync(req.file.path);
     }
 
     if (updates.technologies) {
