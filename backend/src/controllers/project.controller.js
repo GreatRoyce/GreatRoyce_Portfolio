@@ -1,6 +1,4 @@
 const Project = require("../models/project.model");
-const cloudinary = require("../../config/cloudinary");
-const fs = require("fs");
 
 /* ===========================
    📥 CREATE PROJECT
@@ -17,27 +15,9 @@ const createProject = async (req, res) => {
       dateCompleted,
     } = req.body;
 
-    let image = null;
-    let video = null;
-
-    // Upload file to Cloudinary if present
-    if (req.file) {
-      const isVideo = req.file.mimetype.startsWith("video");
-
-      const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-        folder: "portfolio-projects",
-        resource_type: isVideo ? "video" : "image",
-      });
-
-      if (isVideo) {
-        video = uploadResult.secure_url;
-      } else {
-        image = uploadResult.secure_url;
-      }
-
-      // Remove local temp file
-      fs.unlinkSync(req.file.path);
-    }
+    // Use req.file.path directly (CloudinaryStorage)
+    const image = req.file && !req.file.mimetype.startsWith("video") ? req.file.path : null;
+    const video = req.file && req.file.mimetype.startsWith("video") ? req.file.path : null;
 
     const newProject = await Project.create({
       title,
@@ -46,10 +26,7 @@ const createProject = async (req, res) => {
       image,
       video,
       technologies: technologies
-        ? technologies
-            .split(",")
-            .map((t) => t.trim())
-            .filter(Boolean)
+        ? technologies.split(",").map((t) => t.trim()).filter(Boolean)
         : [],
       githubLink,
       liveDemo,
@@ -130,22 +107,12 @@ const updateProject = async (req, res) => {
   try {
     const updates = { ...req.body };
 
-    // Upload new file if present
     if (req.file) {
-      const isVideo = req.file.mimetype.startsWith("video");
-
-      const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-        folder: "portfolio-projects",
-        resource_type: isVideo ? "video" : "image",
-      });
-
-      if (isVideo) {
-        updates.video = uploadResult.secure_url;
+      if (req.file.mimetype.startsWith("video")) {
+        updates.video = req.file.path; // Cloudinary URL
       } else {
-        updates.image = uploadResult.secure_url;
+        updates.image = req.file.path; // Cloudinary URL
       }
-
-      fs.unlinkSync(req.file.path);
     }
 
     if (updates.technologies) {
