@@ -18,12 +18,12 @@ function Contact() {
 
   // Brand color variations (same as Projects component)
   const brandColors = {
-    primary: "#cc4e00",         // Main brand color
-    light: "#ff6f2a",           // Lighter variation
-    dark: "#a33c00",            // Darker variation
-    muted: "#ff8f4d",           // Muted for backgrounds
-    subtle: "#ffb385",          // Very light for subtle accents
-    deep: "#8c2d00",            // Deep dark for borders/text
+    primary: "#cc4e00", // Main brand color
+    light: "#ff6f2a", // Lighter variation
+    dark: "#a33c00", // Darker variation
+    muted: "#ff8f4d", // Muted for backgrounds
+    subtle: "#ffb385", // Very light for subtle accents
+    deep: "#8c2d00", // Deep dark for borders/text
   };
 
   const handlePhoneClick = () => {
@@ -32,12 +32,12 @@ function Contact() {
 
   const handleWhatsAppClick = () => {
     const message = encodeURIComponent(
-      "Hello Royce, I'd like to discuss a project with you."
+      "Hello Royce, I'd like to discuss a project with you.",
     );
     window.open(
       `https://wa.me/2347066070465?text=${message}`,
       "_blank",
-      "noopener,noreferrer"
+      "noopener,noreferrer",
     );
   };
 
@@ -169,19 +169,19 @@ function Contact() {
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                  className="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
                   style={{
-                    backgroundColor: isDarkMode 
-                      ? `${brandColors.muted}30`  // 30 = 0.2 opacity in hex
-                      : `${brandColors.subtle}`
+                    backgroundColor: isDarkMode
+                      ? `${brandColors.muted}30` // 30 = 0.2 opacity in hex
+                      : `${brandColors.subtle}`,
                   }}
                 >
                   <FaMapMarkerAlt
-                    className="w-5 h-5 transition-colors duration-300"
+                    className="w-4 h-4 transition-colors duration-300"
                     style={{
-                      color: isDarkMode 
+                      color: isDarkMode
                         ? brandColors.light
-                        : brandColors.primary
+                        : brandColors.primary,
                     }}
                   />
                 </div>
@@ -219,19 +219,19 @@ function Contact() {
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                  className="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
                   style={{
-                    backgroundColor: isDarkMode 
+                    backgroundColor: isDarkMode
                       ? `${brandColors.muted}30`
-                      : `${brandColors.subtle}`
+                      : `${brandColors.subtle}`,
                   }}
                 >
                   <FaPhone
-                    className="w-5 h-5 transition-colors duration-300"
+                    className="w-4 h-4 transition-colors duration-300"
                     style={{
-                      color: isDarkMode 
+                      color: isDarkMode
                         ? brandColors.light
-                        : brandColors.primary
+                        : brandColors.primary,
                     }}
                   />
                 </div>
@@ -267,19 +267,19 @@ function Contact() {
                 transition={{ duration: 0.2 }}
               >
                 <div
-                  className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                  className="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
                   style={{
-                    backgroundColor: isDarkMode 
+                    backgroundColor: isDarkMode
                       ? `${brandColors.muted}30`
-                      : `${brandColors.subtle}`
+                      : `${brandColors.subtle}`,
                   }}
                 >
                   <FaEnvelope
-                    className="w-5 h-5 transition-colors duration-300"
+                    className="w-4 h-4 transition-colors duration-300"
                     style={{
-                      color: isDarkMode 
+                      color: isDarkMode
                         ? brandColors.light
-                        : brandColors.primary
+                        : brandColors.primary,
                     }}
                   />
                 </div>
@@ -298,7 +298,7 @@ function Contact() {
                         isDarkMode ? "text-gray-300" : "text-gray-600"
                       }`}
                       style={{
-                        color: isDarkMode ? "#d1d5db" : "#4b5563"
+                        color: isDarkMode ? "#d1d5db" : "#4b5563",
                       }}
                     >
                       royceokoh@gmail.com
@@ -324,52 +324,49 @@ function Contact() {
               >
                 Prefer instant communication?
               </p>
+
               <div className="grid grid-cols-2 gap-3">
+                {/* CALL BUTTON */}
                 <motion.a
                   href="tel:+2347066070465"
                   onClick={handlePhoneClick}
-                  className="py-3 px-4 text-center rounded-xl font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2 text-white"
-                  style={{ 
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.96 }}
+                  className="group flex items-center justify-center gap-2
+      rounded-xl px-3 py-2 sm:px-6 sm:py-3
+      text-[10px] sm:text-sm font-medium text-white
+      transition-all duration-300
+      hover:shadow-xl"
+                  style={{
                     backgroundColor: brandColors.primary,
-                    boxShadow: `0 4px 14px 0 ${brandColors.primary}40`
+                    boxShadow: `0 6px 18px ${brandColors.primary}40`,
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = brandColors.light;
-                    e.currentTarget.style.boxShadow = `0 6px 20px 0 ${brandColors.primary}60`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = brandColors.primary;
-                    e.currentTarget.style.boxShadow = `0 4px 14px 0 ${brandColors.primary}40`;
-                  }}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.95 }}
                 >
-                  <FaPhone className="w-4 h-4" />
+                  <FaPhone className="w-4 h-4 opacity-90 group-hover:opacity-100" />
                   <span>Call Now</span>
                 </motion.a>
 
+                {/* WHATSAPP BUTTON */}
                 <motion.button
+                  type="button"
                   onClick={handleWhatsAppClick}
-                  className="py-3 px-4 text-center rounded-xl font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2 text-white"
-                  style={{ 
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.96 }}
+                  className="group flex items-center justify-center gap-2
+      rounded-xl px-3 py-2 sm:px-6 sm:py-3
+      text-[10px] sm:text-sm font-medium text-white
+      transition-all duration-300
+      hover:shadow-xl"
+                  style={{
                     backgroundColor: brandColors.primary,
-                    boxShadow: `0 4px 14px 0 ${brandColors.primary}40`
+                    boxShadow: `0 6px 18px ${brandColors.primary}40`,
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = brandColors.light;
-                    e.currentTarget.style.boxShadow = `0 6px 20px 0 ${brandColors.primary}60`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = brandColors.primary;
-                    e.currentTarget.style.boxShadow = `0 4px 14px 0 ${brandColors.primary}40`;
-                  }}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.95 }}
                 >
-                  <FaWhatsapp className="w-4 h-4" />
+                  <FaWhatsapp className="w-4 h-4 opacity-90 group-hover:opacity-100" />
                   <span>WhatsApp</span>
                 </motion.button>
               </div>
+
               <p
                 className={`text-xs text-center mt-3 ${
                   isDarkMode ? "text-gray-400" : "text-gray-500"
@@ -392,7 +389,7 @@ function Contact() {
                 {socialLinks.map((social) => {
                   const IconComponent = social.icon;
                   const isHovered = hoveredSocial === social.label;
-                  
+
                   return (
                     <motion.button
                       key={social.label}
@@ -403,17 +400,21 @@ function Contact() {
                               window.open(
                                 social.href,
                                 "_blank",
-                                "noopener,noreferrer"
+                                "noopener,noreferrer",
                               )
                       }
                       className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110`}
                       style={{
                         backgroundColor: isHovered
                           ? brandColors.primary
-                          : (isDarkMode ? "#374151" : "#f3f4f6"),
+                          : isDarkMode
+                            ? "#374151"
+                            : "#f3f4f6",
                         color: isHovered
                           ? "white"
-                          : (isDarkMode ? brandColors.subtle : brandColors.primary)
+                          : isDarkMode
+                            ? brandColors.subtle
+                            : brandColors.primary,
                       }}
                       whileHover={{ y: -3 }}
                       whileTap={{ scale: 0.95 }}
@@ -438,7 +439,7 @@ function Contact() {
                     className="w-2 h-2 rounded-full animate-pulse"
                     style={{
                       backgroundColor: brandColors.primary,
-                      animationDelay: `${i * 200}ms`
+                      animationDelay: `${i * 200}ms`,
                     }}
                   ></div>
                 ))}
@@ -460,25 +461,26 @@ function Contact() {
               isDarkMode ? "text-gray-400" : "text-gray-600"
             }`}
           >
-            Ready to bring your ideas to life? Let's create something amazing together.
+            Ready to bring your ideas to life? Let's create something amazing
+            together.
           </p>
           <div className="mt-4 inline-flex items-center justify-center gap-3">
-            <div 
+            <div
               className="w-3 h-3 rounded-full animate-brand-pulse"
               style={{ backgroundColor: brandColors.primary }}
             ></div>
-            <div 
+            <div
               className="w-2 h-2 rounded-full animate-brand-pulse"
-              style={{ 
+              style={{
                 backgroundColor: brandColors.light,
-                animationDelay: '300ms'
+                animationDelay: "300ms",
               }}
             ></div>
-            <div 
+            <div
               className="w-2 h-2 rounded-full animate-brand-pulse"
-              style={{ 
+              style={{
                 backgroundColor: brandColors.muted,
-                animationDelay: '600ms'
+                animationDelay: "600ms",
               }}
             ></div>
           </div>
@@ -488,14 +490,21 @@ function Contact() {
       {/* Add custom CSS for brand animations */}
       <style jsx>{`
         @keyframes brand-pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.5; transform: scale(0.9); }
+          0%,
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.5;
+            transform: scale(0.9);
+          }
         }
-        
+
         .animate-brand-pulse {
           animation: brand-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
-        
+
         /* Custom hover styles for email links */
         a:hover {
           color: ${brandColors.primary} !important;
