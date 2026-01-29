@@ -324,17 +324,22 @@ function Projects() {
                     <h3 className="font-bold text-xl mb-2">{project.title}</h3>
 
                     {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.open(
+                            project.githubUrl,
+                            "_blank",
+                            "noopener,noreferrer",
+                          );
+                        }}
                         className="text-xs font-medium px-3 py-1.5 rounded-full border transition-all
-        border-[#cc4e00] text-[#cc4e00]
-        hover:bg-[#cc4e00] hover:text-white"
-                        onClick={(e) => e.stopPropagation()} // prevents card click navigation
+      border-[#cc4e00] text-[#cc4e00]
+      hover:bg-[#cc4e00] hover:text-white"
                       >
                         Repo
-                      </a>
+                      </button>
                     )}
                   </div>
 
