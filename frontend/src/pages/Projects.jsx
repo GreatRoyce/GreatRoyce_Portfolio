@@ -336,7 +336,7 @@ function Projects() {
                         }}
                         className="text-xs font-medium px-3 py-1.5 rounded-full border transition-all
       border-[#cc4e00] text-[#cc4e00]
-      hover:bg-[#cc4e00] hover:text-white"
+      hover:bg-[#cc4e00] hover:text-[#faf2f0]"
                       >
                         Repo
                       </button>

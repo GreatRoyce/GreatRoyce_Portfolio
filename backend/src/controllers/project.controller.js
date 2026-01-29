@@ -21,16 +21,19 @@ const createProject = async (req, res) => {
     let video = null;
 
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path, {
-        resource_type: "auto",
-      });
-      // Remove the local file after upload
-      fs.unlinkSync(req.file.path);
-
-      if (req.file.mimetype.startsWith("video")) {
-        video = result.secure_url;
-      } else {
-        image = result.secure_url;
+      try {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+          resource_type: "auto",
+        });
+        if (req.file.mimetype.startsWith("video")) {
+          video = result.secure_url;
+        } else {
+          image = result.secure_url;
+        }
+      } finally {
+        if (fs.existsSync(req.file.path)) {
+          fs.unlinkSync(req.file.path);
+        }
       }
     }
 
@@ -126,15 +129,19 @@ const updateProject = async (req, res) => {
     const updates = { ...req.body };
 
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path, {
-        resource_type: "auto",
-      });
-      fs.unlinkSync(req.file.path);
-
-      if (req.file.mimetype.startsWith("video")) {
-        updates.video = result.secure_url;
-      } else {
-        updates.image = result.secure_url;
+      try {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+          resource_type: "auto",
+        });
+        if (req.file.mimetype.startsWith("video")) {
+          updates.video = result.secure_url;
+        } else {
+          updates.image = result.secure_url;
+        }
+      } finally {
+        if (fs.existsSync(req.file.path)) {
+          fs.unlinkSync(req.file.path);
+        }
       }
     }
 
