@@ -240,7 +240,11 @@ function Projects() {
 
                 {/* CONTENT */}
                 <div className="p-6">
+                <div className="flex justify-between items-center"> 
                   <h3 className="font-bold text-xl mb-2">{project.title}</h3>
+                  <button className="px-4 py-2">{project.githubUrl}</button>
+
+                </div>
                   <p className="text-sm mb-2">{isExpanded ? project.description : truncateText(project.description)}</p>
                   {needsExpansion && (
                     <button className="text-xs text-[#cc4e00]" onClick={() => toggleDescription(project.id)}>
