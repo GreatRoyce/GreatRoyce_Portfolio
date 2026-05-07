@@ -2,6 +2,46 @@ const Project = require("../models/project.model");
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
 
+const getFieldFile = (req, fieldName) => {
+  if (req.file) {
+    if (!fieldName) return req.file;
+    if (req.file.fieldname === fieldName) return req.file;
+  }
+
+  if (req.files && Array.isArray(req.files[fieldName])) {
+    return req.files[fieldName][0] || null;
+  }
+
+  return null;
+};
+
+const isCloudinaryUrl = (filePath) =>
+  typeof filePath === "string" && /^https?:\/\//.test(filePath);
+
+const uploadToCloudinaryIfNeeded = async (file) => {
+  if (!file) return null;
+
+  // multer-storage-cloudinary already uploads and returns a URL in `path`.
+  if (isCloudinaryUrl(file.path)) return file.path;
+  if (typeof file.secure_url === "string") return file.secure_url;
+
+  if (!file.path) return null;
+
+  let uploadedUrl = null;
+  try {
+    const result = await cloudinary.uploader.upload(file.path, {
+      resource_type: "auto",
+    });
+    uploadedUrl = result.secure_url;
+  } finally {
+    if (fs.existsSync(file.path)) {
+      fs.unlinkSync(file.path);
+    }
+  }
+
+  return uploadedUrl;
+};
+
 /* ===========================
    📥 CREATE PROJECT
 =========================== */
@@ -20,21 +60,17 @@ const createProject = async (req, res) => {
     let image = null;
     let video = null;
 
-    if (req.file) {
-      try {
-        const result = await cloudinary.uploader.upload(req.file.path, {
-          resource_type: "auto",
-        });
-        if (req.file.mimetype.startsWith("video")) {
-          video = result.secure_url;
-        } else {
-          image = result.secure_url;
-        }
-      } finally {
-        if (fs.existsSync(req.file.path)) {
-          fs.unlinkSync(req.file.path);
-        }
-      }
+    const imageFile = getFieldFile(req, "image");
+    const videoFile =
+      getFieldFile(req, "video") ||
+      (req.file && req.file.mimetype?.startsWith("video") ? req.file : null);
+
+    if (imageFile) {
+      image = await uploadToCloudinaryIfNeeded(imageFile);
+    }
+
+    if (videoFile) {
+      video = await uploadToCloudinaryIfNeeded(videoFile);
     }
 
     const newProject = await Project.create({
@@ -128,21 +164,17 @@ const updateProject = async (req, res) => {
   try {
     const updates = { ...req.body };
 
-    if (req.file) {
-      try {
-        const result = await cloudinary.uploader.upload(req.file.path, {
-          resource_type: "auto",
-        });
-        if (req.file.mimetype.startsWith("video")) {
-          updates.video = result.secure_url;
-        } else {
-          updates.image = result.secure_url;
-        }
-      } finally {
-        if (fs.existsSync(req.file.path)) {
-          fs.unlinkSync(req.file.path);
-        }
-      }
+    const imageFile = getFieldFile(req, "image");
+    const videoFile =
+      getFieldFile(req, "video") ||
+      (req.file && req.file.mimetype?.startsWith("video") ? req.file : null);
+
+    if (imageFile) {
+      updates.image = await uploadToCloudinaryIfNeeded(imageFile);
+    }
+
+    if (videoFile) {
+      updates.video = await uploadToCloudinaryIfNeeded(videoFile);
     }
 
     if (updates.technologies) {
